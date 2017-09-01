@@ -26,6 +26,7 @@
     "dist",
     "index.d.ts",
     "src/*.d.ts",
-    "src/*/*.d.ts"
+    "src/*/*.d.ts",
+    "test/*/*.d.ts"
   ]
 }
