@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    position: relative;
+}
+
+.loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.image-container {
+    &--crop {
+        width: 100%;
+    }
+}
+
+.image-container__image {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    &--crop {
+        background-size: cover;
+    }
+    &--stretch {
+        background-size: 100%;
+    }
+    &--original {
+        background-size: auto;
+    }
+}
