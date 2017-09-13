@@ -11,12 +11,12 @@ import {
     OnInit
     } from '@angular/core';
 
-interface ImageSource {
+export interface ImageSource {
     media: string;
     url: string;
 }
 
-enum stretchStrategy {
+export enum stretchStrategy {
     crop = 'crop',
     stretch = 'stretch',
     original = 'original',
@@ -68,7 +68,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
     /* TODO file an issue in ng2;
        HostListener overwrites handlers as if one event could only have one handler.
     */
-    public updatePositioning (event?: Event): void {
+    public updatePositioning (): void {
         // maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
         const maxBufferSize: number = 260; // some arbitrary number to play around with
         this.scrollBufferSize = window.innerHeight < maxBufferSize ? window.innerHeight : maxBufferSize;
