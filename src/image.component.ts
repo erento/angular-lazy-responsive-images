@@ -59,12 +59,11 @@ export class ImageComponent implements AfterViewInit, OnInit {
         if (this.stretchStrategy === stretchStrategy.crop) {
             this.calculateCanvasSizeForCrop();
         }
-
-        this.updateVisibility();
     }
 
     public ngAfterViewInit (): void {
         this.updatePositioning();
+        this.updateVisibility();
     }
 
     /* TODO file an issue in ng2;
@@ -90,7 +89,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
         }
 
         // i can't reflect on how annoying and stupid this is
-        if (event.type === 'resize') {
+        if (event && event.type === 'resize') {
             this.updatePositioning();
             this.updateResponsiveImage();
         }
