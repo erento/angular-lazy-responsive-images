@@ -59,6 +59,8 @@ export class ImageComponent implements AfterViewInit, OnInit {
         if (this.stretchStrategy === stretchStrategy.crop) {
             this.calculateCanvasSizeForCrop();
         }
+
+        this.updateVisibility();
     }
 
     public ngAfterViewInit (): void {
