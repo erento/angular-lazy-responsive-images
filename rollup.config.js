@@ -6,7 +6,6 @@ import { minify as minifyHtml } from 'html-minifier';
 
 const pkg = require('./package.json');
 
-
 const cssmin = new CleanCSS();
 const htmlminOpts = {
     caseSensitive: true,
