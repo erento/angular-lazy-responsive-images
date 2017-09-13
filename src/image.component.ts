@@ -128,7 +128,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
         }
     }
 
-    private exceedsCropThreshold (width: number, height: number): boolean {
+    private withinCropThreshold (width: number, height: number): boolean {
         const defaultMaxCropAllowed: number = 30;
         const maxCropAllowed: number = this.maxCropPercentage ? this.maxCropPercentage : defaultMaxCropAllowed;
         const ratio: number = width / height;
@@ -159,7 +159,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
             }
 
             if (this.stretchStrategy === stretchStrategy.crop) {
-                this.stretchState = this.exceedsCropThreshold(image.width, image.height)
+                this.stretchState = this.withinCropThreshold(image.width, image.height)
                     ? stretchStrategy.crop : stretchStrategy.stretch;
             }
         });

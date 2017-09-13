@@ -20,14 +20,16 @@
     height: 100%;
     background-repeat: no-repeat;
     background-position: center center;
+}
 
-    &--crop {
-        background-size: cover;
-    }
-    &--stretch {
-        background-size: contain;
-    }
-    &--original {
-        background-size: auto;
-    }
+.image-container__image--crop {
+    background-size: cover;
+}
+
+.image-container__image--stretch {
+    background-size: contain;
+}
+
+.image-container__image--original {
+    background-size: auto;
 }
