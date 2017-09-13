@@ -11,12 +11,12 @@ import {
     OnInit
     } from '@angular/core';
 
-export interface ImageSource {
+interface ImageSource {
     media: string;
     url: string;
 }
 
-export enum stretchStrategy {
+enum stretchStrategy {
     crop = 'crop',
     stretch = 'stretch',
     original = 'original',
@@ -50,11 +50,15 @@ export class ImageComponent implements AfterViewInit, OnInit {
 
     constructor (
         public viewContainer: ViewContainerRef,
-        private cdRef: ChangeDetectorRef) {}
+        private cdRef: ChangeDetectorRef,
+        private el: ElementRef) {}
 
     public ngOnInit (): void {
         this.renderTemplate();
-        this.updateResponsiveImage();
+
+        if (this.stretchStrategy === stretchStrategy.crop) {
+            this.calculateCanvasSizeForCrop();
+        }
     }
 
     public ngAfterViewInit (): void {
@@ -64,13 +68,12 @@ export class ImageComponent implements AfterViewInit, OnInit {
     /* TODO file an issue in ng2;
        HostListener overwrites handlers as if one event could only have one handler.
     */
-    public updatePositioning (): void {
+    public updatePositioning (event?: Event): void {
         // maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
         const maxBufferSize: number = 260; // some arbitrary number to play around with
         this.scrollBufferSize = window.innerHeight < maxBufferSize ? window.innerHeight : maxBufferSize;
 
-        const elem: HTMLElement = this.imageElement.nativeElement;
-        this.verticalPosition = elem.offsetTop;
+        this.verticalPosition = this.el.nativeElement.offsetTop;
     }
 
     @HostListener('window:resize', ['$event'])
@@ -81,6 +84,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
 
         if (!this.wasInViewport && isImageInLoadingArea) {
             this.wasInViewport = true;
+            this.updateResponsiveImage();
         }
 
         // i can't reflect on how annoying and stupid this is
