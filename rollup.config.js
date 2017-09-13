@@ -1,6 +1,18 @@
 import typescript from 'rollup-plugin-typescript';
+import angular from 'rollup-plugin-angular';
+import sass from 'node-sass';
+import CleanCSS from 'clean-css';
+import { minify as minifyHtml } from 'html-minifier';
 
-let pkg = require('./package.json');
+const pkg = require('./package.json');
+
+
+const cssmin = new CleanCSS();
+const htmlminOpts = {
+    caseSensitive: true,
+    collapseWhitespace: true,
+    removeComments: true,
+};
 
 export default {
   entry: 'src/image.component.ts',
@@ -13,5 +25,16 @@ export default {
   globals: {
     '@angular/core': 'ng.core',
   },
-  plugins: [typescript({typescript: require('typescript')})]
+  plugins: [
+    angular({
+      preprocessors: {
+        template: template => minifyHtml(template, htmlminOpts),
+        style: scss => {
+            const css = sass.renderSync({ data: scss }).css;
+            return cssmin.minify(css).styles;
+        },
+      }
+    }),
+    typescript({typescript: require('typescript')}),
+  ],
 }
