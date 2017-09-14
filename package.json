@@ -9,8 +9,7 @@
     "build": "npm run tsc && npm run rollup",
     "rollup": "./node_modules/.bin/rollup -c -o dist/angular-lazy-responsive-images.umd.js",
     "tsc": "node_modules/.bin/tsc -p .",
-    "lint": "tslint '{src,test}/**/*.ts' -e '**/*.d.ts'",
-
+    "lint": "tslint '{src,test}/**/*.ts' -e '**/*.d.ts'"
   },
   "repository": {
     "type": "git",
