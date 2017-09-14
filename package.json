@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/erento/angular-lazy-responsive-images.git"
   },
-  "author": "Erento GmbH",
+  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/erento/angular-lazy-responsive-images/issues"
@@ -26,6 +26,7 @@
     "@types/core-js": "^0.9.43",
     "@types/jasmine": "^2.5.54",
     "clean-css": "^4.1.8",
+    "codelyzer": "^3.2.0",
     "html-minifier": "^3.5.5",
     "node-sass": "^4.5.3",
     "rollup": "^0.49.3",
