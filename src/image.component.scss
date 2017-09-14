@@ -1,6 +1,7 @@
 :host {
     display: block;
     position: relative;
+    height: 100%;
 }
 
 .loading {
@@ -10,6 +11,8 @@
 }
 
 .image-container {
+    position: relative;
+    height: 100%;
     &--crop {
         width: 100%;
     }
@@ -20,16 +23,14 @@
     height: 100%;
     background-repeat: no-repeat;
     background-position: center center;
-}
 
-.image-container__image--crop {
-    background-size: cover;
-}
-
-.image-container__image--stretch {
-    background-size: contain;
-}
-
-.image-container__image--original {
-    background-size: auto;
+    &--crop {
+        background-size: cover;
+    }
+    &--stretch {
+        background-size: contain;
+    }
+    &--original {
+        background-size: auto;
+    }
 }
