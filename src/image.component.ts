@@ -16,16 +16,16 @@ export interface ImageSource {
     url: string;
 }
 
-export enum stretchStrategy {
+export enum StretchStrategy {
     crop = 'crop',
     stretch = 'stretch',
     original = 'original',
 }
 
 @Component({
-    selector: 'image',
+    selector: 'e-image',
     templateUrl: './image.component.html',
-    styleUrls: ['./image.component.css'],
+    styleUrls: ['./image.component.scss'],
 })
 export class ImageComponent implements AfterViewInit, OnInit {
     @Input() public sources: ImageSource[];
@@ -33,14 +33,14 @@ export class ImageComponent implements AfterViewInit, OnInit {
     @Input() public loadingTpl: TemplateRef<any>;
     @Input() public canvasRatio: number;
     @Input() public maxCropPercentage: number;
-    @Input() public stretchStrategy: stretchStrategy = stretchStrategy.original;
+    @Input() public stretchStrategy: StretchStrategy = StretchStrategy.original;
     @ViewChild('imageTplRef') public imageTplRef: TemplateRef<any>;
 
     public wasInViewport: boolean = false;
     public canvasWidth: number;
     public canvasHeight: number;
     public backgroundString: string;
-    public stretchState: stretchStrategy; // certain strategies can end up in more than one state dynamically
+    public stretchState: StretchStrategy; // certain strategies can end up in more than one state dynamically
     public loading: boolean = true;
 
     @ViewChild('imageElement') private imageElement: ElementRef;
@@ -56,7 +56,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
     public ngOnInit (): void {
         this.renderTemplate();
 
-        if (this.stretchStrategy === stretchStrategy.crop) {
+        if (this.stretchStrategy === StretchStrategy.crop) {
             this.calculateCanvasSizeForCrop();
         }
     }
@@ -66,9 +66,6 @@ export class ImageComponent implements AfterViewInit, OnInit {
         this.updateVisibility();
     }
 
-    /* TODO file an issue in ng2;
-       HostListener overwrites handlers as if one event could only have one handler.
-    */
     public updatePositioning (): void {
         // maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
         const maxBufferSize: number = 260; // some arbitrary number to play around with
@@ -88,7 +85,6 @@ export class ImageComponent implements AfterViewInit, OnInit {
             this.updateResponsiveImage();
         }
 
-        // i can't reflect on how annoying and stupid this is
         if (event && event.type === 'resize') {
             this.updatePositioning();
             this.updateResponsiveImage();
@@ -103,9 +99,11 @@ export class ImageComponent implements AfterViewInit, OnInit {
     }
 
     private calculateCanvasSizeForCrop (): void {
-        const canvasWidth: number = this.imageElement.nativeElement.offsetWidth;
-        const desiredHeight: number = 1 / this.canvasRatio * canvasWidth;
-        this.canvasHeight = Math.floor(desiredHeight);
+        if (typeof this.canvasRatio === 'number') {
+            const canvasWidth: number = this.imageElement.nativeElement.offsetWidth;
+            const desiredHeight: number = 1 / this.canvasRatio * canvasWidth;
+            this.canvasHeight = Math.floor(desiredHeight);
+        }
     }
 
     private determineBackground (): string {
@@ -116,15 +114,8 @@ export class ImageComponent implements AfterViewInit, OnInit {
     }
 
     private validateInputs (): void {
-        const defaultRatio: number = 487 / 366; // Typical gallery preview size
-        // fallback to defaults of 4:3 image ratio
-        if (this.stretchStrategy === stretchStrategy.crop
-            && !(this.canvasRatio)) {
-            this.canvasRatio = defaultRatio;
-        }
-
         if (!this.stretchState) {
-            this.stretchState = stretchStrategy.original;
+            this.stretchState = StretchStrategy.original;
         }
     }
 
@@ -134,7 +125,6 @@ export class ImageComponent implements AfterViewInit, OnInit {
         const ratio: number = width / height;
 
         return (this.canvasRatio - ratio) / this.canvasRatio * 100 <= maxCropAllowed;
-
     }
 
     private updateBackground (): void {
@@ -153,14 +143,14 @@ export class ImageComponent implements AfterViewInit, OnInit {
         image.addEventListener('load', () => {
             this.loading = false;
 
-            if (this.stretchStrategy === stretchStrategy.original) {
+            if (this.stretchStrategy === StretchStrategy.original) {
                 this.canvasHeight = image.height;
                 this.canvasWidth = image.width;
             }
 
-            if (this.stretchStrategy === stretchStrategy.crop) {
+            if (this.stretchStrategy === StretchStrategy.crop) {
                 this.stretchState = this.withinCropThreshold(image.width, image.height)
-                    ? stretchStrategy.crop : stretchStrategy.stretch;
+                    ? StretchStrategy.crop : StretchStrategy.stretch;
             }
         });
     }
@@ -169,7 +159,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
         this.updateBackground();
         this.validateInputs();
 
-        if (this.stretchStrategy === stretchStrategy.crop) {
+        if (this.stretchStrategy === StretchStrategy.crop) {
             this.calculateCanvasSizeForCrop();
         }
     }

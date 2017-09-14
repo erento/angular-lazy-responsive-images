@@ -1,10 +1,10 @@
-<div #imageElement class="image-container" [ngClass]="'image-container--' + stretchStrategy" [style.height.px]='canvasHeight' [style.width.px]='canvasWidth'>
+<div #imageElement class="image-container" [ngClass]="'image-container--' + stretchState" [style.height.px]='canvasHeight' [style.width.px]='canvasWidth'>
     <div class="loading" [hidden]="!loading">
         <ng-template #imageTplRef
             [ngTemplateOutlet]="loadingTpl"
         ></ng-template>
     </div>
-    <div [hidden]="loading" [ngStyle]="{'background-image': backgroundString}" class="image-container__image" [ngClass]="'image-container__image--' + stretchState">
+    <div *ngIf="wasInViewport" [hidden]="loading" [ngStyle]="{'background-image': backgroundString}" class="image-container__image" [ngClass]="'image-container__image--' + stretchState">
     </div>
     <meta itemprop="image" content="">
 </div>
