@@ -138,21 +138,21 @@ export class ImageComponent implements AfterViewInit, OnInit {
             this.backgroundString = newBackgroundString;
             image.src = src;
             this.loading = true;
+
+            image.addEventListener('load', () => {
+                this.loading = false;
+
+                if (this.stretchStrategy === StretchStrategy.original) {
+                    this.canvasHeight = image.height;
+                    this.canvasWidth = image.width;
+                }
+
+                if (this.stretchStrategy === StretchStrategy.crop) {
+                    this.stretchState = this.withinCropThreshold(image.width, image.height)
+                        ? StretchStrategy.crop : StretchStrategy.stretch;
+                }
+            });
         }
-
-        image.addEventListener('load', () => {
-            this.loading = false;
-
-            if (this.stretchStrategy === StretchStrategy.original) {
-                this.canvasHeight = image.height;
-                this.canvasWidth = image.width;
-            }
-
-            if (this.stretchStrategy === StretchStrategy.crop) {
-                this.stretchState = this.withinCropThreshold(image.width, image.height)
-                    ? StretchStrategy.crop : StretchStrategy.stretch;
-            }
-        });
     }
 
     private updateResponsiveImage (): void {
