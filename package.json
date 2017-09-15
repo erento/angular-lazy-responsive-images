@@ -1,9 +1,9 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "files": [
     "src",
-    "dist/*.js",
+    "dist",
     "index.d.ts",
     "tsconfig.json"
   ],
@@ -12,7 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "npm run build",
-    "build": "npm run tsc && npm run rollup",
+    "build": "npm run lint && npm run tsc && npm run rollup",
     "rollup": "./node_modules/.bin/rollup -c -o dist/angular-lazy-responsive-images.umd.js",
     "tsc": "node_modules/.bin/tsc -p .",
     "lint": "tslint '{src,test}/**/*.ts' -e '**/*.d.ts'"
