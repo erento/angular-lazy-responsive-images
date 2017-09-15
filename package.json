@@ -1,6 +1,12 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.6",
+  "version": "1.0.7",
+  "files": [
+    "src",
+    "dist/*.js",
+    "index.d.ts",
+    "tsconfig.json"
+  ],
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
   "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
@@ -15,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/erento/angular-lazy-responsive-images.git"
   },
-  "author": "",
+  "author": "Erento GmbH",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/erento/angular-lazy-responsive-images/issues"
