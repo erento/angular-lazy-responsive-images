@@ -1,6 +1,6 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
   "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
