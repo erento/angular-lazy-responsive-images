@@ -11,21 +11,22 @@ The package was tested with Angular 4.3.6 and TypeScrtipt 2.4.2. It is using `wi
 and then import the component into your module
 
 ```typescript
-import {ImageModule} from 'angular-lazy-resposnive-images';
+import {ImageComponent} from 'angular-lazy-resposnive-images';
 
-//...
-imports: [ImageModule],
+// ...
+declarations: [ImageComponent],
+exports: [ImageComponent],
 //...
 ```
 
 ### Placement in template
 
 ```html
-<lazy-image
+<e-image
     [sources]="your_sources"
     [loadingTpl]="imageloadingTemplate"
     >
-</lazy-image>
+</e-image>
 
 <ng-template #imageloadingTemplate>
     <!-- Whatever should be shown during the loading -->
@@ -42,15 +43,13 @@ imports: [ImageModule],
 
 `crop` - will display the image in it's orignal ratio regardless if it fits the canvas or not.
 
-`maxCropPercentage` - an integer between 0 and 100. Option 'maxCropPercentage' determines how much of the image surface can be cropped, beyond that, it's going to be contained in the canvas. The default is 20%.
+`maxCropPercentage` - an integer between 0 and 100. Option 'maxCropPercentage' determines how much of the image surface can be cropped, beyond that, it's going to be contained in the canvas. If none is set, it's always contained (the same as in `stretch` strategy).
 
 `canvasRatio` - a float, so `4:3` ratio is actually `1.333...`. Stretches the width of canvas to 100% and presves the given ratio.
 
 `stretch` - the picture will be preserved in its original ratio and contained in the canvas.
 
 `sources` - takes a list of URLs to your images, associated with the media queries that need to be matched to display them, e.g.
-
-If `crop` or `stretch` strategy is set, but no `canvasRatio` given, the height is not set (so one can apply height by CSS class).
 
 ```javascript
 let sources = [
