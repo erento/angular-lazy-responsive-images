@@ -1,6 +1,6 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.12",
+  "version": "1.0.14",
   "files": [
     "src",
     "dist",
@@ -49,5 +49,7 @@
     "@angular/core": ">=4.0.0",
     "rxjs": ">=5.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@angular/common": "^4.4.1"
+  }
 }
