@@ -14,7 +14,7 @@ const htmlminOpts = {
 };
 
 export default {
-  entry: 'src/image.component.ts',
+  entry: 'src/index.ts',
   dest: pkg.main,
   format: 'umd',
   moduleName: 'responsive.lazy.loaded.images',
