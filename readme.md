@@ -11,11 +11,10 @@ The package was tested with Angular 4.3.6 and TypeScrtipt 2.4.2. It is using `wi
 and then import the component into your module
 
 ```typescript
-import {ImageComponent} from 'angular-lazy-resposnive-images';
+import {ImageModule} from 'angular-lazy-resposnive-images';
 
-// ...
-declarations: [ImageComponent],
-exports: [ImageComponent],
+//...
+imports: [ImageModule],
 //...
 ```
 
