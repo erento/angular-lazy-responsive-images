@@ -23,7 +23,7 @@ export enum StretchStrategy {
 }
 
 @Component({
-    selector: 'e-image',
+    selector: 'lazy-image',
     templateUrl: './image.component.html',
     styleUrls: ['./image.component.scss'],
 })
