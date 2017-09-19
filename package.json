@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/erento/angular-lazy-responsive-images#readme",
   "devDependencies": {
+    "@angular/compiler": "^4.4.2",
     "@angular/core": "^4.0.0",
     "@types/core-js": "^0.9.43",
     "@types/jasmine": "^2.5.54",
@@ -51,6 +52,7 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
+    "@angular/core": "^4.0.0",
     "@angular/common": "^4.0.0"
   }
 }
