@@ -151,6 +151,10 @@ export class ImageComponent implements AfterViewInit, OnInit {
                     this.stretchState = this.withinCropThreshold(image.width, image.height)
                         ? StretchStrategy.crop : StretchStrategy.stretch;
                 }
+
+                if (this.stretchStrategy === StretchStrategy.stretch) {
+                    this.stretchState = StretchStrategy.stretch;
+                }
             });
         }
     }
