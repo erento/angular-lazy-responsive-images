@@ -1,6 +1,6 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "files": [
     "src",
     "dist",
@@ -14,6 +14,7 @@
     "prepublish": "npm run build",
     "build": "npm run lint && npm run tsc && npm run rollup",
     "rollup": "./node_modules/.bin/rollup -c -o dist/angular-lazy-responsive-images.umd.js",
+    "postrollup": "./node_modules/.bin/uglifyjs ./dist/angular-lazy-responsive-images.umd.js > ./dist/angular-lazy-responsive-images.umd.min.js",
     "tsc": "node_modules/.bin/tsc -p .",
     "lint": "tslint '{src,test}/**/*.ts' -e '**/*.d.ts'"
   },
