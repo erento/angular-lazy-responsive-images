@@ -21,11 +21,11 @@ imports: [ImageModule],
 ### Placement in template
 
 ```html
-<e-image
+<lazy-image
     [sources]="your_sources"
     [loadingTpl]="imageloadingTemplate"
     >
-</e-image>
+</lazy-image>
 
 <ng-template #imageloadingTemplate>
     <!-- Whatever should be shown during the loading -->

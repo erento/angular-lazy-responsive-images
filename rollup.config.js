@@ -8,9 +8,9 @@ const pkg = require('./package.json');
 
 const cssmin = new CleanCSS();
 const htmlminOpts = {
-    caseSensitive: true,
-    collapseWhitespace: true,
-    removeComments: true,
+  caseSensitive: true,
+  collapseWhitespace: true,
+  removeComments: true,
 };
 
 export default {
@@ -19,21 +19,21 @@ export default {
   format: 'umd',
   moduleName: 'responsive.lazy.loaded.images',
   external: [
-      '@angular/core',
+    '@angular/core',
   ],
   globals: {
     '@angular/core': 'ng.core',
   },
   plugins: [
-    angular({
-      preprocessors: {
-        template: template => minifyHtml(template, htmlminOpts),
-        style: scss => {
-            const css = sass.renderSync({ data: scss }).css;
-            return cssmin.minify(css).styles;
-        },
-      }
-    }),
-    typescript({typescript: require('typescript')}),
+  angular({
+    preprocessors: {
+      template: template => minifyHtml(template, htmlminOpts),
+      style: scss => {
+        const css = sass.renderSync({ data: scss }).css;
+        return cssmin.minify(css).styles;
+      },
+    }
+  }),
+  typescript({typescript: require('typescript')}),
   ],
 }
