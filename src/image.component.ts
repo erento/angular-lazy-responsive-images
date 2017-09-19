@@ -1,15 +1,17 @@
 import {
-    Component,
-    Input,
-    HostListener,
-    ViewChild,
-    ElementRef,
     AfterViewInit,
     ChangeDetectorRef,
+    Component,
+    ElementRef,
+    HostListener,
+    Input,
+    OnInit,
     TemplateRef,
-    ViewContainerRef,
-    OnInit
+    ViewChild,
+    ViewContainerRef
     } from '@angular/core';
+
+import {WindowRef} from './window.reference';
 
 export interface ImageSource {
     media: string;
@@ -51,14 +53,12 @@ export class ImageComponent implements AfterViewInit, OnInit {
     constructor (
         public viewContainer: ViewContainerRef,
         private cdRef: ChangeDetectorRef,
+        private windowRef: WindowRef,
         private el: ElementRef) {}
 
     public ngOnInit (): void {
         this.renderTemplate();
-
-        if (this.stretchStrategy === StretchStrategy.crop) {
-            this.calculateCanvasSizeForCrop();
-        }
+        this.calculateCanvasSize();
     }
 
     public ngAfterViewInit (): void {
@@ -69,15 +69,16 @@ export class ImageComponent implements AfterViewInit, OnInit {
     public updatePositioning (): void {
         // maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
         const maxBufferSize: number = 260; // some arbitrary number to play around with
-        this.scrollBufferSize = window.innerHeight < maxBufferSize ? window.innerHeight : maxBufferSize;
+        this.scrollBufferSize = this.windowRef.nativeWindow.innerHeight < maxBufferSize ?
+            this.windowRef.nativeWindow.innerHeight : maxBufferSize;
 
-        this.verticalPosition = this.el.nativeElement.offsetTop;
+        this.verticalPosition = this.el.nativeElement.getBoundingClientRect().top;
     }
 
     @HostListener('window:resize', ['$event'])
     @HostListener('window:scroll', ['$event'])
     public updateVisibility (event?: Event): void {
-        const loadingArea: number = window.scrollY + window.innerHeight + this.scrollBufferSize;
+        const loadingArea: number = this.windowRef.nativeWindow.scrollY + this.windowRef.nativeWindow.innerHeight + this.scrollBufferSize;
         const isImageInLoadingArea: boolean = loadingArea >= this.verticalPosition;
 
         if (!this.wasInViewport && isImageInLoadingArea) {
@@ -86,6 +87,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
         }
 
         if (event && event.type === 'resize') {
+            this.calculateCanvasSize();
             this.updatePositioning();
             this.updateResponsiveImage();
         }
@@ -98,8 +100,8 @@ export class ImageComponent implements AfterViewInit, OnInit {
         this.cdRef.markForCheck();
     }
 
-    private calculateCanvasSizeForCrop (): void {
-        if (typeof this.canvasRatio === 'number') {
+    private calculateCanvasSize (): void {
+        if (this.stretchStrategy === StretchStrategy.crop || this.stretchStrategy === StretchStrategy.stretch && this.canvasRatio) {
             const canvasWidth: number = this.imageElement.nativeElement.offsetWidth;
             const desiredHeight: number = 1 / this.canvasRatio * canvasWidth;
             this.canvasHeight = Math.floor(desiredHeight);
@@ -108,7 +110,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
 
     private determineBackground (): string {
         const matched: ImageSource[] = this.sources.filter((source: ImageSource, _index: number, _array: ImageSource[]): boolean =>
-            window.matchMedia(source.media).matches);
+            this.windowRef.nativeWindow.matchMedia(source.media).matches);
 
         return matched.length > 0 ? matched[0].url : undefined;
     }
@@ -120,7 +122,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
     }
 
     private withinCropThreshold (width: number, height: number): boolean {
-        const defaultMaxCropAllowed: number = 30;
+        const defaultMaxCropAllowed: number = 20;
         const maxCropAllowed: number = this.maxCropPercentage ? this.maxCropPercentage : defaultMaxCropAllowed;
         const ratio: number = width / height;
 
@@ -164,7 +166,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
         this.validateInputs();
 
         if (this.stretchStrategy === StretchStrategy.crop) {
-            this.calculateCanvasSizeForCrop();
+            this.calculateCanvasSize();
         }
     }
 }

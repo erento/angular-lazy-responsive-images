@@ -14,15 +14,19 @@ const htmlminOpts = {
 };
 
 export default {
-  entry: 'src/index.ts',
-  dest: pkg.main,
-  format: 'umd',
-  moduleName: 'responsive.lazy.loaded.images',
+  input: 'src/index.ts',
+  output: {
+    file: pkg.main,
+    format: 'umd'
+  },
+  name: 'responsive.lazy.loaded.images',
   external: [
     '@angular/core',
+    '@angular/common',
   ],
   globals: {
     '@angular/core': 'ng.core',
+    '@angular/common': 'ng.common',
   },
   plugins: [
   angular({
