@@ -11,10 +11,10 @@ The package was tested with Angular 4.3.6 and TypeScrtipt 2.4.2. It is using `wi
 and then import the component into your module
 
 ```typescript
-import {ImageModule} from 'angular-lazy-resposnive-images';
+import {LazyImageModule} from 'angular-lazy-resposnive-images';
 
 //...
-imports: [ImageModule],
+imports: [LazyImageModule],
 //...
 ```
 
@@ -23,11 +23,11 @@ imports: [ImageModule],
 ```html
 <lazy-image
     [sources]="your_sources"
-    [loadingTpl]="imageloadingTemplate"
+    [loadingTpl]="imageLoadingTemplate"
     >
 </lazy-image>
 
-<ng-template #imageloadingTemplate>
+<ng-template #imageLoadingTemplate>
     <!-- Whatever should be shown during the loading -->
 </ng-template>
 ```
