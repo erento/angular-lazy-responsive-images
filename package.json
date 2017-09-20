@@ -1,19 +1,60 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.0",
+  "version": "1.0.18",
+  "files": [
+    "src",
+    "dist",
+    "index.d.ts",
+    "tsconfig.json"
+  ],
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
-  "main": "index.js",
+  "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build",
+    "build": "npm run lint && npm run tsc && npm run rollup",
+    "rollup": "./node_modules/.bin/rollup -c -o dist/angular-lazy-responsive-images.umd.js",
+    "postrollup": "./node_modules/.bin/uglifyjs ./dist/angular-lazy-responsive-images.umd.js > ./dist/angular-lazy-responsive-images.umd.min.js",
+    "tsc": "node_modules/.bin/tsc -p .",
+    "lint": "tslint '{src,test}/**/*.ts' -e '**/*.d.ts'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/erento/angular-lazy-responsive-images.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Erento GmbH",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/erento/angular-lazy-responsive-images/issues"
   },
-  "homepage": "https://github.com/erento/angular-lazy-responsive-images#readme"
+  "homepage": "https://github.com/erento/angular-lazy-responsive-images#readme",
+  "devDependencies": {
+    "@angular/compiler": "^4.4.2",
+    "@angular/core": "^4.0.0",
+    "@types/core-js": "^0.9.43",
+    "@types/jasmine": "^2.5.54",
+    "clean-css": "^4.1.8",
+    "codelyzer": "^3.2.0",
+    "html-minifier": "^3.5.5",
+    "node-sass": "^4.5.3",
+    "rollup": "^0.49.3",
+    "rollup-plugin-angular": "^0.5.3",
+    "rollup-plugin-copy": "^0.2.3",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rxjs": "^5.4.3",
+    "tslint": "5.4.3",
+    "tslint-eslint-rules": "4.1.1",
+    "typescript": "2.4.2",
+    "zone.js": "~0.8.16"
+  },
+  "peerDependencies": {
+    "@angular/core": ">=4.0.0",
+    "rxjs": ">=5.1.0",
+    "typescript": "^2.4.1",
+    "@angular/common": "^4.0.0"
+  },
+  "dependencies": {
+    "@angular/core": "^4.0.0",
+    "@angular/common": "^4.0.0"
+  }
 }
