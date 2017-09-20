@@ -51,7 +51,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
     private verticalPosition: number;
 
     constructor (
-        public viewContainer: ViewContainerRef,
+        private viewContainer: ViewContainerRef,
         private cdRef: ChangeDetectorRef,
         private windowRef: WindowRef,
         private el: ElementRef) {}
