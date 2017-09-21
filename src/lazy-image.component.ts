@@ -26,8 +26,8 @@ export enum StretchStrategy {
 
 @Component({
     selector: 'lazy-image',
-    templateUrl: './image.component.html',
-    styleUrls: ['./image.component.scss'],
+    templateUrl: './lazy-image.component.html',
+    styleUrls: ['./lazy-image.component.scss'],
 })
 export class LazyImageComponent implements AfterViewInit, OnInit {
     @Input() public sources: ImageSource[];
