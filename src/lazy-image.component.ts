@@ -113,7 +113,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
 
     private determineBackground (): string {
         const matched: ImageSource[] = this.sources.filter((source: ImageSource, _index: number, _array: ImageSource[]): boolean =>
-            this.windowRef.nativeWindow.matchMedia(source.media).matches);
+            this.windowRef.nativeWindow.matchMedia(source.media || '').matches);
 
         return matched.length > 0 ? matched[0].url : '';
     }
