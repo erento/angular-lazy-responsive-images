@@ -26,10 +26,10 @@ export enum StretchStrategy {
 
 @Component({
     selector: 'lazy-image',
-    templateUrl: './image.component.html',
-    styleUrls: ['./image.component.scss'],
+    templateUrl: './lazy-image.component.html',
+    styleUrls: ['./lazy-image.component.scss'],
 })
-export class ImageComponent implements AfterViewInit, OnInit {
+export class LazyImageComponent implements AfterViewInit, OnInit {
     @Input() public sources: ImageSource[];
     @Input() public visibilityOverride: boolean;
     @Input() public loadingTpl: TemplateRef<any>;
@@ -49,6 +49,8 @@ export class ImageComponent implements AfterViewInit, OnInit {
 
     private scrollBufferSize: number;
     private verticalPosition: number;
+    private imageWidth: number;
+    private imageHeight: number;
 
     constructor (
         private viewContainer: ViewContainerRef,
@@ -68,7 +70,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
 
     public updatePositioning (): void {
         // maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
-        const maxBufferSize: number = 260; // some arbitrary number to play around with
+        const maxBufferSize: number = 460; // some arbitrary number to play around with
         this.scrollBufferSize = this.windowRef.nativeWindow.innerHeight < maxBufferSize ?
             this.windowRef.nativeWindow.innerHeight : maxBufferSize;
 
@@ -90,6 +92,7 @@ export class ImageComponent implements AfterViewInit, OnInit {
             this.calculateCanvasSize();
             this.updatePositioning();
             this.updateResponsiveImage();
+            this.updateStretchState();
         }
 
         this.cdRef.detectChanges();
@@ -110,23 +113,29 @@ export class ImageComponent implements AfterViewInit, OnInit {
 
     private determineBackground (): string {
         const matched: ImageSource[] = this.sources.filter((source: ImageSource, _index: number, _array: ImageSource[]): boolean =>
-            this.windowRef.nativeWindow.matchMedia(source.media).matches);
+            this.windowRef.nativeWindow.matchMedia(source.media || '').matches);
 
-        return matched.length > 0 ? matched[0].url : undefined;
+        return matched.length > 0 ? matched[0].url : '';
     }
 
     private validateInputs (): void {
-        if (!this.stretchState) {
-            this.stretchState = StretchStrategy.original;
+        if (!this.stretchStrategy) {
+            this.stretchStrategy = StretchStrategy.original;
+        }
+
+        if (!this.sources.length) {
+            throw new Error('No sources provided for the image.');
         }
     }
 
     private withinCropThreshold (width: number, height: number): boolean {
         const defaultMaxCropAllowed: number = 20;
         const maxCropAllowed: number = this.maxCropPercentage ? this.maxCropPercentage : defaultMaxCropAllowed;
-        const ratio: number = width / height;
+        const imageRatio: number = width / height;
+        const canvasRatio: number = this.el.nativeElement.getBoundingClientRect().width /
+            this.el.nativeElement.getBoundingClientRect().height;
 
-        return (this.canvasRatio - ratio) / this.canvasRatio * 100 <= maxCropAllowed;
+        return isNaN(canvasRatio) ? false : Math.abs(canvasRatio - imageRatio) / canvasRatio * 100 <= maxCropAllowed;
     }
 
     private updateBackground (): void {
@@ -143,21 +152,26 @@ export class ImageComponent implements AfterViewInit, OnInit {
 
             image.addEventListener('load', () => {
                 this.loading = false;
-
-                if (this.stretchStrategy === StretchStrategy.original) {
-                    this.canvasHeight = image.height;
-                    this.canvasWidth = image.width;
-                }
-
-                if (this.stretchStrategy === StretchStrategy.crop) {
-                    this.stretchState = this.withinCropThreshold(image.width, image.height)
-                        ? StretchStrategy.crop : StretchStrategy.stretch;
-                }
-
-                if (this.stretchStrategy === StretchStrategy.stretch) {
-                    this.stretchState = StretchStrategy.stretch;
-                }
+                this.imageWidth = image.width;
+                this.imageHeight = image.height;
+                this.updateStretchState();
             });
+        }
+    }
+
+    private updateStretchState (): void {
+        if (this.stretchStrategy === StretchStrategy.original) {
+            this.canvasHeight = this.imageHeight;
+            this.canvasWidth = this.imageWidth;
+        }
+
+        if (this.stretchStrategy === StretchStrategy.crop) {
+            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageWidth)
+                ? StretchStrategy.crop : StretchStrategy.stretch;
+        }
+
+        if (this.stretchStrategy === StretchStrategy.stretch) {
+            this.stretchState = StretchStrategy.stretch;
         }
     }
 

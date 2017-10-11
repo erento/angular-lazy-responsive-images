@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ImageComponent} from './image.component';
+import {LazyImageComponent} from './lazy-image.component';
 import {WindowRef} from './window.reference';
-export * from './image.component';
+export * from './lazy-image.component';
 
 @NgModule({
-    declarations: [ImageComponent],
-    exports: [ImageComponent],
+    declarations: [LazyImageComponent],
+    exports: [LazyImageComponent],
     imports: [CommonModule],
     providers: [WindowRef]
 })
-export class ImageModule {}
+export class LazyImageModule {}
