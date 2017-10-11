@@ -33,10 +33,12 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     @Input() public sources: ImageSource[];
     @Input() public visibilityOverride: boolean;
     @Input() public loadingTpl: TemplateRef<any>;
+    @Input() public errorTpl: TemplateRef<any>;
     @Input() public canvasRatio: number;
     @Input() public maxCropPercentage: number;
     @Input() public stretchStrategy: StretchStrategy = StretchStrategy.original;
-    @ViewChild('imageTplRef') public imageTplRef: TemplateRef<any>;
+    @ViewChild('loadingTplRef') public loadingTplRef: TemplateRef<any>;
+    @ViewChild('errorTplRef') public errorTplRef: TemplateRef<any>;
 
     public wasInViewport: boolean = false;
     public canvasWidth: number;
@@ -44,6 +46,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     public backgroundString: string;
     public stretchState: StretchStrategy; // certain strategies can end up in more than one state dynamically
     public loading: boolean = true;
+    public errorOccurred: boolean = false;
 
     @ViewChild('imageElement') private imageElement: ElementRef;
 
@@ -99,7 +102,8 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     }
 
     private renderTemplate (): void {
-        this.viewContainer.createEmbeddedView(this.imageTplRef);
+        this.viewContainer.createEmbeddedView(this.loadingTplRef);
+        this.viewContainer.createEmbeddedView(this.errorTplRef);
         this.cdRef.markForCheck();
     }
 
@@ -155,6 +159,11 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
                 this.imageWidth = image.width;
                 this.imageHeight = image.height;
                 this.updateStretchState();
+            });
+
+            image.addEventListener('error', () => {
+                this.loading = false;
+                this.errorOccurred = true;
             });
         }
     }
