@@ -11,5 +11,5 @@
     </div>
     <div *ngIf="wasInViewport" [hidden]="loading" [ngStyle]="{'background-image': backgroundString}" class="image-container__image" [ngClass]="'image-container__image--' + stretchState">
     </div>
-    <meta itemprop="image" content="">
+    <meta itemprop="image" content="{{ backgroundString }}">
 </div>
