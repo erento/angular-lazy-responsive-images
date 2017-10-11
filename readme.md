@@ -65,7 +65,7 @@ let sources = [
 		url: 'http://example.com/image.jpg'
 	},
 	{
-		media: '(max-width: 468px)',
+		media: '(max-width: 467px)',
 		url: 'http://example.com/some_other_image.jpg'
 	}
 ];
