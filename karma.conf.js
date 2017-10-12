@@ -4,10 +4,10 @@ module.exports = (config) => {
     config.set({
         basePath: '',
         files: [
-            {pattern: './src/test.js', watched: false}
+            {pattern: './karma-test-shim.conf.js', watched: false}
         ],
         preprocessors: {
-            './src/test.js': ['webpack', 'sourcemap']
+            './karma-test-shim.conf.js': ['webpack', 'sourcemap']
         },
         webpack: webpackConfig,
         webpackMiddleware: {stats: 'errors-only'},
