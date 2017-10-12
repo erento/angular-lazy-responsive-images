@@ -10,7 +10,7 @@ describe('Component: Lazy Image', () => {
     let fixture: ComponentFixture<LazyImageComponent>;
     let component: LazyImageComponent;
 
-    beforeEach(() => {
+    beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [
                 LazyImageComponent,
@@ -22,14 +22,16 @@ describe('Component: Lazy Image', () => {
                 WindowRef,
             ],
         }).compileComponents();
+    }));
 
+    beforeEach(() => {
         fixture = TestBed.createComponent(LazyImageComponent);
         component = fixture.componentInstance;
     });
 
-    it('should run the test', async(() => {
-        const image: LazyImageComponent = component;
+    it('should run the test', () => {
+        const image: LazyImageComponent = fixture.debugElement.componentInstance;
 
         expect(image).toBeDefined();
-    }));
+    });
 });
