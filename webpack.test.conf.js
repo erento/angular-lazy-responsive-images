@@ -15,5 +15,6 @@ module.exports = {
             }
         ],
     },
-    stats: { colors: true, reasons: true }
+    stats: { colors: true, reasons: true },
+    debug: true
 };

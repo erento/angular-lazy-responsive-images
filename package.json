@@ -10,7 +10,8 @@
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
   "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
-    "test": "node_modules/.bin/karma start",
+    "test": "npm run karma",
+    "karma": "node_modules/.bin/karma start",
     "prepublish": "npm run build",
     "build": "npm run lint && npm run tsc && npm run rollup",
     "rollup": "./node_modules/.bin/rollup -c -o dist/angular-lazy-responsive-images.umd.js",
@@ -58,6 +59,7 @@
     "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-typescript": "^0.8.1",
     "rxjs": "^5.4.3",
+    "ts-loader": "^2.3.7",
     "tslint": "5.4.3",
     "tslint-eslint-rules": "4.1.1",
     "typescript": "2.4.2",
