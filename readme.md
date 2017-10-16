@@ -24,10 +24,14 @@ imports: [LazyImageModule],
 <lazy-image
     [sources]="your_sources"
     [loadingTpl]="imageLoadingTemplate"
+    [errorTpl]="imageErrorTemplate"
     >
 </lazy-image>
 
 <ng-template #imageLoadingTemplate>
+    <!-- Whatever should be shown during the loading -->
+</ng-template>
+<ng-template #imageErrorTemplate>
     <!-- Whatever should be shown during the loading -->
 </ng-template>
 ```
@@ -48,9 +52,11 @@ imports: [LazyImageModule],
 
 `stretch` - the picture will be preserved in its original ratio and contained in the canvas.
 
-`sources` - takes a list of URLs to your images, associated with the media queries that need to be matched to display them, e.g.
-
 If `crop` or `stretch` strategy is set, but no `canvasRatio` given, the height is not set (so one can apply height by CSS class).
+
+#### Image sources
+
+`sources` - takes a list of URLs to your images, associated with the media queries that need to be matched to display them, e.g.
 
 ```javascript
 let sources = [
@@ -59,10 +65,13 @@ let sources = [
 		url: 'http://example.com/image.jpg'
 	},
 	{
-		media: '(max-width: 468px)',
+		media: '(max-width: 467px)',
 		url: 'http://example.com/some_other_image.jpg'
 	}
 ];
 ```
 
-`loadingTpl` - reference to `ng-template` as shown in the example above.
+#### Custimization
+
+`loadingTpl` - shown during loading. Reference to `ng-template` as shown in the example above.
+`errorTpl` -  shown if image fails to load. Reference to `ng-template` as shown in the example above.
