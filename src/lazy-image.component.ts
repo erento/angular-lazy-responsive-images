@@ -8,8 +8,8 @@ import {
     OnInit,
     TemplateRef,
     ViewChild,
-    ViewContainerRef
-    } from '@angular/core';
+    ViewContainerRef,
+} from '@angular/core';
 
 import {WindowRef} from './window.reference';
 
@@ -59,7 +59,8 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
         private viewContainer: ViewContainerRef,
         private cdRef: ChangeDetectorRef,
         private windowRef: WindowRef,
-        private el: ElementRef) {}
+        private el: ElementRef,
+    ) {}
 
     public ngOnInit (): void {
         this.renderTemplate();
@@ -175,7 +176,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
         }
 
         if (this.stretchStrategy === StretchStrategy.crop) {
-            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageWidth)
+            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageHeight)
                 ? StretchStrategy.crop : StretchStrategy.stretch;
         }
 
