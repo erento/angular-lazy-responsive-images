@@ -111,13 +111,18 @@ describe('LazyImageComponent', () => {
         component.maxCropPercentage = 30;
         component.canvasRatio = 1.5; // 2.95/1.5 > 30, should be `stretched`
 
+        fixture.detectChanges();
+
         expect(hasStretchState('stretch')).toBeTruthy('Should be `stretch` but is not.');
 
         component.canvasRatio = 2.7;
+        fixture.detectChanges();
 
         expect(hasStretchState('crop')).toBeTruthy('Should be `crop` but is not.');
 
         component.stretchStrategy = 'original';
+        fixture.detectChanges();
+
         expect(hasStretchState('original'))
             .toBeTruthy('Should be `original` but is not.');
     });
