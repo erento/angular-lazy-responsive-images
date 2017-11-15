@@ -1,11 +1,19 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component, Input} from '@angular/core';
 import {ImageSource, LazyImageComponent, StretchStrategy} from './lazy-image.component';
-import {By} from "@angular/platform-browser";
+import {By} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-stub-component',
     template: `
+        <div #testLoadingTemplate>
+            <span class="test-loading-element">Test loading string</span>
+        </div>
+
+        <div #testErrorTemplate>
+            <span class="test-error-element">Test error string</span>
+        </div>
+
         <lazy-image
             [stretchStrategy]="stretchStrategy"
             [maxCropPercentage]="maxCropPercentage"
@@ -64,16 +72,20 @@ describe('LazyImageComponent', () => {
             'url("https://www.google.de/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")');
     });
 
-    // it('should handle loading errors with showing the template', () => {
-    //     component.sources = [{
-    //         media: 'all',
-    //         url: 'this_should_generate_a_404',
-    //     }];
-    //
-    //     component.errorTpl =  ;
-    // });
+    it('should handle loading errors with showing the template', () => {
+        component.sources = [{
+            media: 'all',
+            url: 'this_should_generate_a_404',
+        }];
+
+        expect(getErrorElement()).toBeTruthy();
+    });
 
     function getBackgroundElement (): HTMLElement {
         return fixture.debugElement.query(By.css('.image-container__image')).nativeElement;
+    }
+
+    function getErrorElement (): HTMLElement {
+        return fixture.debugElement.query(By.css('.test-error-element')).nativeElement;
     }
 });
