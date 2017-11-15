@@ -109,6 +109,10 @@ describe('LazyImageComponent', () => {
         component.canvasRatio = 1.5; // 2.95/1.5 > 30, should be `stretched`
 
         expect(hasStretchState('stretch'));
+
+        component.canvasRatio = 2.7;
+
+        expect(hasStretchState('crop'));
     });
 
     function getBackgroundElement (): HTMLElement {
