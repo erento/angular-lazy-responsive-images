@@ -10,7 +10,7 @@ describe('LazyImageComponent', () => {
         TestBed.configureTestingModule({
             declarations: [LazyImageComponent],
             imports: [],
-            providers: []
+            providers: [],
         }).compileComponents();
     }));
 
@@ -20,8 +20,8 @@ describe('LazyImageComponent', () => {
 
         component.sources = [{
             media: 'all',
-            // assuming there's internet access, this should be there
-            url: 'https://google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+            // assuming there's internet access, this should be there and have size of 272x92 pixels.
+            url: 'https://www.google.de/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
         }];
 
         component.stretchStrategy = 'crop';
@@ -33,5 +33,11 @@ describe('LazyImageComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should load an image accordingly', () => {
+        const backgroundString: string = component.backgroundString;
+        expect(backgroundString).toBe(
+            'url(\'https://www.google.de/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\')');
     });
 });
