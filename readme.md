@@ -42,7 +42,7 @@ imports: [LazyImageModule],
 
 #### Stretch strategies
 
-`original` - displays original image in it's original ratio, fitted to the witdh of container.
+`original` - displays original image in it's original ratio, fitted to the width of container.
 
 `crop` - will display the image in it's orignal ratio regardless if it fits the canvas or not.
 
