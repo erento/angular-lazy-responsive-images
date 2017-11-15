@@ -1,6 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component, Input} from '@angular/core';
 import {ImageSource, LazyImageComponent, StretchStrategy} from './lazy-image.component';
+import {By} from "@angular/platform-browser";
 
 @Component({
     selector: 'app-stub-component',
@@ -57,11 +58,11 @@ describe('LazyImageComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    // it('should load an image accordingly', () => {
-    //     const element
-    //     expect(backgroundString).toBe(
-    //         'url(\'https://www.google.de/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png\')');
-    // });
+    it('should load an image accordingly', () => {
+        const backgroundString: string = getBackgroundElement().style.backgroundImage;
+        expect(backgroundString).toBe(
+            'url("https://www.google.de/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png")');
+    });
 
     // it('should handle loading errors with showing the template', () => {
     //     component.sources = [{
@@ -71,4 +72,8 @@ describe('LazyImageComponent', () => {
     //
     //     component.errorTpl =  ;
     // });
+
+    function getBackgroundElement (): HTMLElement {
+        return fixture.debugElement.query(By.css('.image-container__image')).nativeElement;
+    }
 });
