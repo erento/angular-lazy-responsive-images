@@ -1,77 +1,27 @@
-# Lazy loaded, responsive images for Angular
+# ImagesAsLibrary
 
-## Requirements & compatibility
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
 
-The package was tested with Angular 4.3.6 and TypeScrtipt 2.4.2. It is using `window.matchMedia()`, check [here](http://caniuse.com/#feat=matchmedia) for compatibility table (TLDR; IE10 and higher).
+## Development server
 
-## Usage
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-`npm install angular-lazy-responsive-images`
+## Code scaffolding
 
-and then import the component into your module
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-```typescript
-import {LazyImageModule} from 'angular-lazy-responsive-images';
+## Build
 
-//...
-imports: [LazyImageModule],
-//...
-```
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-### Placement in template
+## Running unit tests
 
-```html
-<lazy-image
-    [sources]="your_sources"
-    [loadingTpl]="imageLoadingTemplate"
-    [errorTpl]="imageErrorTemplate"
-    >
-</lazy-image>
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-<ng-template #imageLoadingTemplate>
-    <!-- Whatever should be shown during the loading -->
-</ng-template>
-<ng-template #imageErrorTemplate>
-    <!-- Whatever should be shown during the loading -->
-</ng-template>
-```
+## Running end-to-end tests
 
-### Options overview
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-`stretchStrategy` - can take either `crop`, `original` or `stretch`.
+## Further help
 
-#### Stretch strategies
-
-`original` - displays original image in it's original ratio, fitted to the witdh of container.
-
-`crop` - will display the image in it's orignal ratio regardless if it fits the canvas or not.
-
-`maxCropPercentage` - an integer between 0 and 100. Option 'maxCropPercentage' determines how much of the image surface can be cropped, beyond that, it's going to be contained in the canvas. The default is 20%.
-
-`canvasRatio` - a float, so `4:3` ratio is actually `1.333...`. Stretches the width of canvas to 100% and presves the given ratio.
-
-`stretch` - the picture will be preserved in its original ratio and contained in the canvas.
-
-If `crop` or `stretch` strategy is set, but no `canvasRatio` given, the height is not set (so one can apply height by CSS class).
-
-#### Image sources
-
-`sources` - takes a list of URLs to your images, associated with the media queries that need to be matched to display them, e.g.
-
-```javascript
-let sources = [
-	{
-		media: '(min-width: 468px)',
-		url: 'http://example.com/image.jpg'
-	},
-	{
-		media: '(max-width: 467px)',
-		url: 'http://example.com/some_other_image.jpg'
-	}
-];
-```
-
-#### Custimization
-
-`loadingTpl` - shown during loading. Reference to `ng-template` as shown in the example above.
-`errorTpl` -  shown if image fails to load. Reference to `ng-template` as shown in the example above.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
