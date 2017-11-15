@@ -14,20 +14,41 @@ import {By} from '@angular/platform-browser';
             <span class="test-error-element">Test error string</span>
         </div>
 
-        <lazy-image
-            [stretchStrategy]="stretchStrategy"
-            [maxCropPercentage]="maxCropPercentage"
-            [sources]="sources"
-            [canvasRatio]="canvasRatio"
-        >
-        </lazy-image>
+        <div ngClass="{
+            'image-container-43': testParentRatio === '43',
+            'image-container-11': testParentRatio === '11',
+        }" class="image-container">
+            <lazy-image
+                [stretchStrategy]="stretchStrategy"
+                [maxCropPercentage]="maxCropPercentage"
+                [sources]="sources"
+                [canvasRatio]="canvasRatio"
+            >
+            </lazy-image>
+        </div>
     `,
+    // tslint:disable no-unused-css
+    styles: [
+        `
+        .image-container-43 {
+            width: 400px;
+            height: 300px;
+        }
+
+        .image-container-11 {
+            width: 100px;
+            height: 100px;
+        }
+        `,
+    ],
+    // tslint:enable no-unused-css
 })
 class StubComponent {
     @Input() public stretchStrategy: StretchStrategy;
     @Input() public canvasRatio: number;
     @Input() public maxCropPercentage: number;
     @Input() public sources: ImageSource[];
+    public testParentRatio: string;
 }
 
 describe('LazyImageComponent', () => {
@@ -81,11 +102,29 @@ describe('LazyImageComponent', () => {
         expect(getErrorElement()).toBeTruthy();
     });
 
+    it('should choose valid stretch strategy with regard to the image ratio', () => {
+        // since our image is 272x92, the ratio is 2.95652174.
+        component.testParentRatio = '43'; // this sets the parent size
+        component.maxCropPercentage = 30;
+        component.canvasRatio = 1.5; // 2.95/1.5 > 30, should be `stretched`
+
+        expect(hasStretchState('stretch'));
+    });
+
     function getBackgroundElement (): HTMLElement {
         return fixture.debugElement.query(By.css('.image-container__image')).nativeElement;
     }
 
     function getErrorElement (): HTMLElement {
         return fixture.debugElement.query(By.css('.test-error-element')).nativeElement;
+    }
+
+    function hasStretchState (stretchState: StretchStrategy): boolean {
+        return fixture
+            .debugElement
+            .query(By.css('.image-container__image'))
+            .nativeElement
+            .classList
+            .contains(`.image-container__image--${stretchState}`);
     }
 });
