@@ -1,17 +1,33 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "1.0.24",
+  "files": [
+    "src",
+    "dist",
+    "index.d.ts",
+    "tsconfig.json"
+  ],
+  "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
+  "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "packagr": "ng-packagr -p ng-package.json"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "npm run build",
+    "build": "npm run lint && npm run tsc && npm run rollup",
+    "rollup": "./node_modules/.bin/rollup -c -o dist/angular-lazy-responsive-images.umd.js",
+    "postrollup": "./node_modules/.bin/uglifyjs ./dist/angular-lazy-responsive-images.umd.js > ./dist/angular-lazy-responsive-images.umd.min.js",
+    "tsc": "node_modules/.bin/tsc -p .",
+    "lint": "tslint '{src,test}/**/*.ts' -e '**/*.d.ts'"
   },
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erento/angular-lazy-responsive-images.git"
+  },
+  "author": "Erento GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erento/angular-lazy-responsive-images/issues"
+  },
+  "homepage": "https://github.com/erento/angular-lazy-responsive-images#readme",
   "dependencies": {
     "@angular/animations": "^4.2.4",
     "@angular/common": "^4.2.4",
