@@ -21,6 +21,7 @@ export interface ImageSource {
 export type StretchStrategy = 'crop' | 'stretch' | 'original';
 
 @Component({
+    //tslint:disable-next-line
     selector: 'lazy-image',
     templateUrl: './lazy-image.component.html',
     styleUrls: ['./lazy-image.component.scss'],
