@@ -105,33 +105,42 @@ describe('LazyImageComponent', () => {
         expect(getErrorElement()).toBeTruthy();
     });
 
-    fit('should choose valid stretch strategy with regard to the image ratio', (done: any) => {
+    fit('should choose valid for original', (done: any) => {
         // since our image is 272x92, the ratio is 2.95652174.
+        component.stretchStrategy = 'original';
+        component.testParentRatio = '43'; // this sets the parent size
+        component.maxCropPercentage = 30;
+        component.canvasRatio = 2.7; // 2.95/1.5 > 30, should be `stretched`
+        fixture.detectChanges();
+
+        setTimeout(() => {
+            expect(hasStretchState('original')).toBeTruthy();
+            done();
+        }, 1000);
+    });
+
+    fit('should choose valid for crop (stretch)', (done: any) => {
+        component.stretchStrategy = 'crop';
         component.testParentRatio = '43'; // this sets the parent size
         component.maxCropPercentage = 30;
         component.canvasRatio = 1.5; // 2.95/1.5 > 30, should be `stretched`
-
         fixture.detectChanges();
+
         setTimeout(() => {
-            console.log(hasStretchState('stretch'));
-            expect(hasStretchState('stretch')).toBeTruthy();
+            expect(hasStretchState('stretch')).toBeTruthy('Should be `stretch` but is not.');
             done();
         }, 1000);
+    });
 
-        component.canvasRatio = 2.7;
+    fit('should choose valid for crop', (done: any) => {
+        component.stretchStrategy = 'crop';
+        component.testParentRatio = '43'; // this sets the parent size
+        component.maxCropPercentage = 30;
+        component.canvasRatio = 2.95;
         fixture.detectChanges();
 
         setTimeout(() => {
             expect(hasStretchState('crop')).toBeTruthy('Should be `crop` but is not.');
-            done();
-        }, 1000);
-
-        component.stretchStrategy = 'stretch';
-        fixture.detectChanges();
-
-        setTimeout(() => {
-            expect(hasStretchState('original'))
-                .toBeTruthy('Should be `original` but is not.');
             done();
         }, 1000);
     });
@@ -156,6 +165,6 @@ describe('LazyImageComponent', () => {
             .query(By.css('.image-container__image'))
             .nativeElement
             .classList
-            .contains(`.image-container__image--${stretchState}`);
+            .contains(`image-container__image--${stretchState}`);
     }
 });

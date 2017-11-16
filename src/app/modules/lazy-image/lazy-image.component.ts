@@ -61,6 +61,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     public ngOnInit (): void {
         this.renderTemplate();
         this.calculateCanvasSize();
+        console.log('instantiated');
     }
 
     public ngAfterViewInit (): void {
@@ -105,10 +106,12 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     }
 
     private calculateCanvasSize (): void {
-        if (this.stretchStrategy === 'crop' || this.stretchStrategy === 'stretch' && this.canvasRatio) {
+        if ((this.stretchStrategy === 'crop' || this.stretchStrategy === 'stretch') && this.canvasRatio) {
             const canvasWidth: number = this.imageElement.nativeElement.offsetWidth;
             const desiredHeight: number = 1 / this.canvasRatio * canvasWidth;
             this.canvasHeight = Math.floor(desiredHeight);
+
+            console.log(this.canvasRatio);
         }
     }
 
@@ -170,9 +173,11 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
         if (this.stretchStrategy === 'original') {
             this.canvasHeight = this.imageHeight;
             this.canvasWidth = this.imageWidth;
+            this.stretchState = 'original';
         }
 
         if (this.stretchStrategy === 'crop') {
+            console.log('were joyfully here')
             this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageHeight)
                 ? 'crop' : 'stretch';
         }
