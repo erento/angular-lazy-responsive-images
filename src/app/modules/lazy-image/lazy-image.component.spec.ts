@@ -9,13 +9,13 @@ const testImage: string = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARAAAAB
 @Component({
     selector: 'app-stub-component',
     template: `
-        <div #testLoadingTemplate>
+        <ng-template #testLoadingTemplate>
             <span class="test-loading-element">Test loading string</span>
-        </div>
+        </ng-template>
 
-        <div #testErrorTemplate>
+        <ng-template #testErrorTemplate>
             <span class="test-error-element">Test error string</span>
-        </div>
+        </ng-template>
 
         <div ngClass="{
             'image-container-43': testParentRatio === '43',
@@ -26,6 +26,8 @@ const testImage: string = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARAAAAB
                 [maxCropPercentage]="maxCropPercentage"
                 [sources]="sources"
                 [canvasRatio]="canvasRatio"
+                [loadingTpl]="testLoadingTemplate"
+                [errorTpl]="testErrorTemplate"
             >
             </lazy-image>
         </div>
@@ -154,12 +156,6 @@ describe('LazyImageComponent', () => {
     }
 
     function hasStretchState (stretchState: StretchStrategy): boolean {
-        console.log(fixture
-            .debugElement
-            .query(By.css('.image-container__image'))
-            .nativeElement
-            .classList);
-
         return fixture
             .debugElement
             .query(By.css('.image-container__image'))
