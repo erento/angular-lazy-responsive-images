@@ -105,26 +105,35 @@ describe('LazyImageComponent', () => {
         expect(getErrorElement()).toBeTruthy();
     });
 
-    it('should choose valid stretch strategy with regard to the image ratio', () => {
+    fit('should choose valid stretch strategy with regard to the image ratio', (done: any) => {
         // since our image is 272x92, the ratio is 2.95652174.
         component.testParentRatio = '43'; // this sets the parent size
         component.maxCropPercentage = 30;
         component.canvasRatio = 1.5; // 2.95/1.5 > 30, should be `stretched`
 
         fixture.detectChanges();
-
-        expect(hasStretchState('stretch')).toBeTruthy('Should be `stretch` but is not.');
+        setTimeout(() => {
+            console.log(hasStretchState('stretch'));
+            expect(hasStretchState('stretch')).toBeTruthy();
+            done();
+        }, 1000);
 
         component.canvasRatio = 2.7;
         fixture.detectChanges();
 
-        expect(hasStretchState('crop')).toBeTruthy('Should be `crop` but is not.');
+        setTimeout(() => {
+            expect(hasStretchState('crop')).toBeTruthy('Should be `crop` but is not.');
+            done();
+        }, 1000)
 
-        component.stretchStrategy = 'original';
+        component.stretchStrategy = 'stretch';
         fixture.detectChanges();
 
-        expect(hasStretchState('original'))
-            .toBeTruthy('Should be `original` but is not.');
+        setTimeout(() => {
+            expect(hasStretchState('original'))
+                .toBeTruthy('Should be `original` but is not.');
+            done();
+        });
     });
 
     function getBackgroundElement (): HTMLElement {

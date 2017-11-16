@@ -166,13 +166,14 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     }
 
     private updateStretchState (): void {
+        console.log('updatestretchstate was called');
         if (this.stretchStrategy === 'original') {
             this.canvasHeight = this.imageHeight;
             this.canvasWidth = this.imageWidth;
         }
 
         if (this.stretchStrategy === 'crop') {
-            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageWidth)
+            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageHeight)
                 ? 'crop' : 'stretch';
         }
 
