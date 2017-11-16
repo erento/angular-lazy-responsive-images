@@ -105,7 +105,7 @@ describe('LazyImageComponent', () => {
         expect(getErrorElement()).toBeTruthy();
     });
 
-    fit('should choose valid for original', (done: any) => {
+    it('should choose valid for original', (done: any) => {
         // since our image is 272x92, the ratio is 2.95652174.
         component.stretchStrategy = 'original';
         component.testParentRatio = '43'; // this sets the parent size
@@ -119,7 +119,7 @@ describe('LazyImageComponent', () => {
         }, 1000);
     });
 
-    fit('should choose valid for crop (stretch)', (done: any) => {
+    it('should choose valid for crop (stretch)', (done: any) => {
         component.stretchStrategy = 'crop';
         component.testParentRatio = '43'; // this sets the parent size
         component.maxCropPercentage = 30;
@@ -132,7 +132,7 @@ describe('LazyImageComponent', () => {
         }, 1000);
     });
 
-    fit('should choose valid for crop', (done: any) => {
+    it('should choose valid for crop', (done: any) => {
         component.stretchStrategy = 'crop';
         component.testParentRatio = '43'; // this sets the parent size
         component.maxCropPercentage = 30;
