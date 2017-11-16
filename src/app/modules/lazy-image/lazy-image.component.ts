@@ -4,39 +4,37 @@ import {
     Component,
     ElementRef,
     HostListener,
-    Input,
+    Input, OnChanges,
     OnInit,
     TemplateRef,
     ViewChild,
-    ViewContainerRef,
+    ViewContainerRef
 } from '@angular/core';
 
-import {WindowRef} from './window.reference';
+import {WindowRef} from '../../shared/window.reference';
 
 export interface ImageSource {
     media: string;
     url: string;
 }
 
-export enum StretchStrategy {
-    crop = 'crop',
-    stretch = 'stretch',
-    original = 'original',
-}
+export type StretchStrategy = 'crop' | 'stretch' | 'original';
 
 @Component({
+    //tslint:disable-next-line
     selector: 'lazy-image',
     templateUrl: './lazy-image.component.html',
     styleUrls: ['./lazy-image.component.scss'],
+    providers: [WindowRef],
 })
-export class LazyImageComponent implements AfterViewInit, OnInit {
+export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     @Input() public sources: ImageSource[];
     @Input() public visibilityOverride: boolean;
     @Input() public loadingTpl: TemplateRef<any>;
     @Input() public errorTpl: TemplateRef<any>;
     @Input() public canvasRatio: number;
     @Input() public maxCropPercentage: number;
-    @Input() public stretchStrategy: StretchStrategy = StretchStrategy.original;
+    @Input() public stretchStrategy: StretchStrategy = 'original';
     @ViewChild('loadingTplRef') public loadingTplRef: TemplateRef<any>;
     @ViewChild('errorTplRef') public errorTplRef: TemplateRef<any>;
 
@@ -59,8 +57,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
         private viewContainer: ViewContainerRef,
         private cdRef: ChangeDetectorRef,
         private windowRef: WindowRef,
-        private el: ElementRef,
-    ) {}
+        private el: ElementRef) {}
 
     public ngOnInit (): void {
         this.renderTemplate();
@@ -70,6 +67,10 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     public ngAfterViewInit (): void {
         this.updatePositioning();
         this.updateVisibility();
+    }
+
+    public ngOnChanges (): void {
+        this.calculateCanvasSize();
     }
 
     public updatePositioning (): void {
@@ -105,11 +106,11 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     private renderTemplate (): void {
         this.viewContainer.createEmbeddedView(this.loadingTplRef);
         this.viewContainer.createEmbeddedView(this.errorTplRef);
-        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
     }
 
     private calculateCanvasSize (): void {
-        if (this.stretchStrategy === StretchStrategy.crop || this.stretchStrategy === StretchStrategy.stretch && this.canvasRatio) {
+        if ((this.stretchStrategy === 'crop' || this.stretchStrategy === 'stretch') && this.canvasRatio) {
             const canvasWidth: number = this.imageElement.nativeElement.offsetWidth;
             const desiredHeight: number = 1 / this.canvasRatio * canvasWidth;
             this.canvasHeight = Math.floor(desiredHeight);
@@ -125,7 +126,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
 
     private validateInputs (): void {
         if (!this.stretchStrategy) {
-            this.stretchStrategy = StretchStrategy.original;
+            this.stretchStrategy = 'original';
         }
 
         if (!this.sources.length) {
@@ -170,26 +171,29 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     }
 
     private updateStretchState (): void {
-        if (this.stretchStrategy === StretchStrategy.original) {
+        if (this.stretchStrategy === 'original') {
             this.canvasHeight = this.imageHeight;
             this.canvasWidth = this.imageWidth;
+            this.stretchState = 'original';
         }
 
-        if (this.stretchStrategy === StretchStrategy.crop) {
+        if (this.stretchStrategy === 'crop') {
             this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageHeight)
-                ? StretchStrategy.crop : StretchStrategy.stretch;
+                ? 'crop' : 'stretch';
         }
 
-        if (this.stretchStrategy === StretchStrategy.stretch) {
-            this.stretchState = StretchStrategy.stretch;
+        if (this.stretchStrategy === 'stretch') {
+            this.stretchState = 'stretch';
         }
+
+        this.cdRef.detectChanges();
     }
 
     private updateResponsiveImage (): void {
         this.updateBackground();
         this.validateInputs();
 
-        if (this.stretchStrategy === StretchStrategy.crop) {
+        if (this.stretchStrategy === 'crop') {
             this.calculateCanvasSize();
         }
     }
