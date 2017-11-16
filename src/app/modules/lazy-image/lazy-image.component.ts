@@ -101,7 +101,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     private renderTemplate (): void {
         this.viewContainer.createEmbeddedView(this.loadingTplRef);
         this.viewContainer.createEmbeddedView(this.errorTplRef);
-        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
     }
 
     private calculateCanvasSize (): void {
@@ -180,6 +180,8 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
         if (this.stretchStrategy === 'stretch') {
             this.stretchState = 'stretch';
         }
+
+        this.cdRef.detectChanges();
     }
 
     private updateResponsiveImage (): void {

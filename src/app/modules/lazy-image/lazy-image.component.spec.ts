@@ -124,7 +124,7 @@ describe('LazyImageComponent', () => {
         setTimeout(() => {
             expect(hasStretchState('crop')).toBeTruthy('Should be `crop` but is not.');
             done();
-        }, 1000)
+        }, 1000);
 
         component.stretchStrategy = 'stretch';
         fixture.detectChanges();
@@ -133,7 +133,7 @@ describe('LazyImageComponent', () => {
             expect(hasStretchState('original'))
                 .toBeTruthy('Should be `original` but is not.');
             done();
-        });
+        }, 1000);
     });
 
     function getBackgroundElement (): HTMLElement {
