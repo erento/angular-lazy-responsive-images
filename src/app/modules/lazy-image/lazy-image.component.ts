@@ -4,12 +4,12 @@ import {
     Component,
     ElementRef,
     HostListener,
-    Input,
+    Input, OnChanges,
     OnInit,
     TemplateRef,
     ViewChild,
     ViewContainerRef
-    } from '@angular/core';
+} from '@angular/core';
 
 import {WindowRef} from '../../shared/window.reference';
 
@@ -21,12 +21,13 @@ export interface ImageSource {
 export type StretchStrategy = 'crop' | 'stretch' | 'original';
 
 @Component({
+    //tslint:disable-next-line
     selector: 'lazy-image',
     templateUrl: './lazy-image.component.html',
     styleUrls: ['./lazy-image.component.scss'],
     providers: [WindowRef],
 })
-export class LazyImageComponent implements AfterViewInit, OnInit {
+export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     @Input() public sources: ImageSource[];
     @Input() public visibilityOverride: boolean;
     @Input() public loadingTpl: TemplateRef<any>;
@@ -68,6 +69,10 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
         this.updateVisibility();
     }
 
+    public ngOnChanges (): void {
+        this.calculateCanvasSize();
+    }
+
     public updatePositioning (): void {
         // maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
         const maxBufferSize: number = 460; // some arbitrary number to play around with
@@ -101,11 +106,11 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
     private renderTemplate (): void {
         this.viewContainer.createEmbeddedView(this.loadingTplRef);
         this.viewContainer.createEmbeddedView(this.errorTplRef);
-        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
     }
 
     private calculateCanvasSize (): void {
-        if (this.stretchStrategy === 'crop' || this.stretchStrategy === 'stretch' && this.canvasRatio) {
+        if ((this.stretchStrategy === 'crop' || this.stretchStrategy === 'stretch') && this.canvasRatio) {
             const canvasWidth: number = this.imageElement.nativeElement.offsetWidth;
             const desiredHeight: number = 1 / this.canvasRatio * canvasWidth;
             this.canvasHeight = Math.floor(desiredHeight);
@@ -169,16 +174,19 @@ export class LazyImageComponent implements AfterViewInit, OnInit {
         if (this.stretchStrategy === 'original') {
             this.canvasHeight = this.imageHeight;
             this.canvasWidth = this.imageWidth;
+            this.stretchState = 'original';
         }
 
         if (this.stretchStrategy === 'crop') {
-            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageWidth)
+            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageHeight)
                 ? 'crop' : 'stretch';
         }
 
         if (this.stretchStrategy === 'stretch') {
             this.stretchState = 'stretch';
         }
+
+        this.cdRef.detectChanges();
     }
 
     private updateResponsiveImage (): void {
