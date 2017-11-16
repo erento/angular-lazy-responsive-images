@@ -1,6 +1,6 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.24",
+  "version": "1.0.23",
   "files": [
     "src",
     "dist",
@@ -10,13 +10,14 @@
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
   "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "npm run build",
-    "build": "npm run lint && npm run tsc && npm run rollup",
-    "rollup": "./node_modules/.bin/rollup -c -o dist/angular-lazy-responsive-images.umd.js",
-    "postrollup": "./node_modules/.bin/uglifyjs ./dist/angular-lazy-responsive-images.umd.js > ./dist/angular-lazy-responsive-images.umd.min.js",
-    "tsc": "node_modules/.bin/tsc -p .",
-    "lint": "tslint '{src,test}/**/*.ts' -e '**/*.d.ts'"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "packagr": "ng-packagr -p ng-package.json"
   },
   "repository": {
     "type": "git",
