@@ -1,6 +1,6 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "files": [
     "src",
     "dist",
@@ -13,7 +13,7 @@
     "prepublish": "npm run build",
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "npm run packagr",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
