@@ -1,16 +1,17 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "1.0.25",
+  "version": "2.0.0",
   "files": [
     "src",
     "dist",
     "index.d.ts",
-    "tsconfig.json"
+    "tsconfig.json",
+    "bundles",
+    "/*"
   ],
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
   "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
-    "prepublish": "npm run build",
     "ng": "ng",
     "start": "ng serve",
     "build": "npm run packagr",
