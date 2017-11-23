@@ -42,6 +42,7 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     public canvasWidth: number;
     public canvasHeight: number;
     public backgroundString: string;
+    public metaString: string;
     public stretchState: StretchStrategy; // certain strategies can end up in more than one state dynamically
     public loading: boolean = true;
     public errorOccurred: boolean = false;
@@ -148,11 +149,11 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
         // This avoids awkward overlay with loading template over the image
         const image: HTMLImageElement = new Image();
         const src: string = this.determineBackground();
-
         const newBackgroundString: string = `url('${src}')`;
 
         if (newBackgroundString !== this.backgroundString) {
             this.backgroundString = newBackgroundString;
+            this.metaString = src;
             image.src = src;
             this.loading = true;
 
