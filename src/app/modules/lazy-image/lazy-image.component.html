@@ -1,4 +1,4 @@
-<div #imageElement class="image-container" [ngClass]="'image-container--' + stretchState" [style.height.px]='canvasHeight' [style.width.px]='canvasWidth'>
+<div #imageElement itemscope itemprop="image" itemtype="http://schema.org/ImageObject" class="image-container" [ngClass]="'image-container--' + stretchState" [style.height.px]='canvasHeight' [style.width.px]='canvasWidth'>
     <div class="loading" [hidden]="!loading">
         <ng-template #loadingTplRef
             [ngTemplateOutlet]="loadingTpl"
@@ -11,5 +11,9 @@
     </div>
     <div *ngIf="wasInViewport" [hidden]="loading" [ngStyle]="{'background-image': backgroundString}" class="image-container__image" [ngClass]="'image-container__image--' + stretchState">
     </div>
-    <meta itemprop="image" content="{{ backgroundString }}">
+    <ng-content *ngIf="metadata">
+        <meta *ngIf="metadata.url" itemprop="url" content="{{ metadata.url }}">
+        <meta *ngIf="metadata.name" itemprop="name" content="{{ metadata.name }}">
+        <meta *ngIf="metadata.keywords" itemprop="keywords" content="{{ metadata.keywords }}">
+     </ng-content>
 </div>

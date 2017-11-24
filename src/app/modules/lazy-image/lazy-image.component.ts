@@ -18,6 +18,12 @@ export interface ImageSource {
     url: string;
 }
 
+export interface ImageMetadata {
+    keywords: string;
+    name: string;
+    url: string;
+}
+
 export type StretchStrategy = 'crop' | 'stretch' | 'original';
 
 @Component({
@@ -29,6 +35,7 @@ export type StretchStrategy = 'crop' | 'stretch' | 'original';
 })
 export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     @Input() public sources: ImageSource[];
+    @Input() public metadata: ImageMetadata;
     @Input() public visibilityOverride: boolean;
     @Input() public loadingTpl: TemplateRef<any>;
     @Input() public errorTpl: TemplateRef<any>;
@@ -148,7 +155,6 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
         // This avoids awkward overlay with loading template over the image
         const image: HTMLImageElement = new Image();
         const src: string = this.determineBackground();
-
         const newBackgroundString: string = `url('${src}')`;
 
         if (newBackgroundString !== this.backgroundString) {
