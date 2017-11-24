@@ -19,9 +19,9 @@ export interface ImageSource {
 }
 
 export interface ImageMetadata {
-    url: string;
     keywords: string;
     name: string;
+    url: string;
 }
 
 export type StretchStrategy = 'crop' | 'stretch' | 'original';
@@ -49,7 +49,6 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     public canvasWidth: number;
     public canvasHeight: number;
     public backgroundString: string;
-    public metaString: string;
     public stretchState: StretchStrategy; // certain strategies can end up in more than one state dynamically
     public loading: boolean = true;
     public errorOccurred: boolean = false;
@@ -160,7 +159,6 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
 
         if (newBackgroundString !== this.backgroundString) {
             this.backgroundString = newBackgroundString;
-            this.metaString = src;
             image.src = src;
             this.loading = true;
 
