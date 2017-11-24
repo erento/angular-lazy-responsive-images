@@ -11,9 +11,7 @@
     </div>
     <div *ngIf="wasInViewport" [hidden]="loading" [ngStyle]="{'background-image': backgroundString}" class="image-container__image" [ngClass]="'image-container__image--' + stretchState">
     </div>
-    <ng-content *ngIf="metadata">
-        <meta *ngIf="metadata.url" itemprop="url" content="{{ metadata.url }}">
-        <meta *ngIf="metadata.name" itemprop="name" content="{{ metadata.name }}">
-        <meta *ngIf="metadata.keywords" itemprop="keywords" content="{{ metadata.keywords }}">
-     </ng-content>
+    <meta *ngIf="metadata && metadata.url" itemprop="url" content="{{ metadata.url }}">
+    <meta *ngIf="metadata && metadata.name" itemprop="name" content="{{ metadata.name }}">
+    <meta *ngIf="metadata && metadata.keywords" itemprop="keywords" content="{{ metadata.keywords }}">
 </div>
