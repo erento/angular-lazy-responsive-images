@@ -18,6 +18,12 @@ export interface ImageSource {
     url: string;
 }
 
+export interface ImageMetadata {
+    url: string;
+    keywords: string;
+    name: string;
+}
+
 export type StretchStrategy = 'crop' | 'stretch' | 'original';
 
 @Component({
@@ -29,6 +35,7 @@ export type StretchStrategy = 'crop' | 'stretch' | 'original';
 })
 export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     @Input() public sources: ImageSource[];
+    @Input() public metadata: ImageMetadata;
     @Input() public visibilityOverride: boolean;
     @Input() public loadingTpl: TemplateRef<any>;
     @Input() public errorTpl: TemplateRef<any>;
