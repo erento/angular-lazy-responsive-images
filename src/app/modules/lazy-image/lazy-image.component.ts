@@ -92,7 +92,8 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     @HostListener('window:resize', ['$event'])
     @HostListener('window:scroll', ['$event'])
     public updateVisibility (event?: Event): void {
-        const loadingArea: number = this.windowRef.nativeWindow.scrollY + this.windowRef.nativeWindow.innerHeight + this.scrollBufferSize;
+        const loadingArea: number = this.windowRef.nativeWindow.pageYOffset
+            + this.windowRef.nativeWindow.innerHeight + this.scrollBufferSize;
         const isImageInLoadingArea: boolean = loadingArea >= this.verticalPosition;
 
         if (!this.wasInViewport && isImageInLoadingArea) {
