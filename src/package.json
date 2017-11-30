@@ -1,0 +1,19 @@
+{
+  "name": "angular-lazy-responsive-images",
+  "version": "3.0.0",
+  "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erento/angular-lazy-responsive-images.git"
+  },
+  "author": "Erento GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erento/angular-lazy-responsive-images/issues"
+  },
+  "homepage": "https://github.com/erento/angular-lazy-responsive-images",
+  "peerDependencies": {
+    "@angular/core": "^5.0.0",
+    "@angular/common": "^5.0.0"
+  }
+}

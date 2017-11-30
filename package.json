@@ -1,24 +1,15 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "2.0.4",
-  "files": [
-    "src",
-    "dist",
-    "index.d.ts",
-    "tsconfig.json",
-    "bundles",
-    "/*"
-  ],
+  "version": "0.0.0",
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
-  "main": "dist/angular-lazy-responsive-images.umd.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "npm run packagr",
+    "build": "npm run lint && npm run packagr",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "tslint -e \"**/node_modules/**\" -p ./tsconfig.json \"src/**/*.ts\"",
     "e2e": "ng e2e",
-    "packagr": "ng-packagr -p ng-package.json"
+    "packagr": "ng-packagr"
   },
   "repository": {
     "type": "git",
@@ -26,45 +17,24 @@
   },
   "author": "Erento GmbH",
   "license": "MIT",
+  "private": true,
   "bugs": {
     "url": "https://github.com/erento/angular-lazy-responsive-images/issues"
   },
-  "homepage": "https://github.com/erento/angular-lazy-responsive-images#readme",
-  "dependencies": {
-    "@angular/animations": "^4.2.4",
-    "@angular/common": "^4.2.4",
-    "@angular/compiler": "^4.2.4",
-    "@angular/core": "^4.2.4",
-    "@angular/forms": "^4.2.4",
-    "@angular/http": "^4.2.4",
-    "@angular/platform-browser": "^4.2.4",
-    "@angular/platform-browser-dynamic": "^4.2.4",
-    "@angular/router": "^4.2.4",
-    "core-js": "^2.4.1",
-    "rxjs": "^5.4.2",
-    "tslint-eslint-rules": "^4.1.1",
-    "zone.js": "^0.8.14"
-  },
+  "homepage": "https://github.com/erento/angular-lazy-responsive-images",
   "devDependencies": {
-    "@angular/cli": "1.4.9",
-    "@angular/compiler-cli": "^4.2.4",
-    "@angular/language-service": "^4.2.4",
-    "@types/jasmine": "~2.5.53",
-    "@types/jasminewd2": "~2.0.2",
-    "@types/node": "~6.0.60",
-    "codelyzer": "~3.2.0",
-    "jasmine-core": "~2.6.2",
-    "jasmine-spec-reporter": "~4.1.0",
-    "karma": "~1.7.0",
-    "karma-chrome-launcher": "~2.1.1",
-    "karma-cli": "~1.0.1",
-    "karma-coverage-istanbul-reporter": "^1.2.1",
-    "karma-jasmine": "~1.1.0",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "ng-packagr": "^1.5.0-rc.1",
-    "protractor": "~5.1.2",
-    "ts-node": "~3.2.0",
-    "tslint": "~5.7.0",
-    "typescript": "~2.3.0"
+    "@angular/common": "5.1.0",
+    "@angular/compiler": "5.1.0",
+    "@angular/compiler-cli": "5.1.0",
+    "@angular/core": "5.1.0",
+    "@angular/platform-browser": "5.1.0",
+    "@angular/platform-browser-dynamic": "5.1.0",
+    "codelyzer": "4.0.1",
+    "ng-packagr": "2.0.0-rc.4",
+    "rxjs": "5.5.5",
+    "tslint": "5.8.0",
+    "tslint-eslint-rules": "4.1.1",
+    "typescript": "2.4.2",
+    "zone.js": "0.8.18"
   }
 }

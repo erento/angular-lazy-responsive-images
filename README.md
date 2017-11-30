@@ -2,7 +2,7 @@
 
 ## Requirements & compatibility
 
-The package was tested with Angular 4.3.6 and TypeScrtipt 2.4.2. It is using `window.matchMedia()`, check [here](http://caniuse.com/#feat=matchmedia) for compatibility table (TLDR; IE10 and higher).
+The package was tested with Angular 5.0.3 and TypeScript 2.5.3. It is using `window.matchMedia()`, check [here](http://caniuse.com/#feat=matchmedia) for compatibility table (TLDR; IE10 and higher).
 
 ## Usage
 
@@ -21,12 +21,9 @@ imports: [LazyImageModule],
 ### Placement in template
 
 ```html
-<lazy-image
-    [sources]="your_sources"
-    [loadingTpl]="imageLoadingTemplate"
-    [errorTpl]="imageErrorTemplate"
-    >
-</lazy-image>
+<lazy-image [sources]="your_sources"
+            [loadingTpl]="imageLoadingTemplate"
+            [errorTpl]="imageErrorTemplate"></lazy-image>
 
 <ng-template #imageLoadingTemplate>
     <!-- Whatever should be shown during the loading -->
@@ -60,14 +57,14 @@ If `crop` or `stretch` strategy is set, but no `canvasRatio` given, the height i
 
 ```javascript
 let sources = [
-	{
-		media: '(min-width: 468px)',
-		url: 'http://example.com/image.jpg'
-	},
-	{
-		media: '(max-width: 467px)',
-		url: 'http://example.com/some_other_image.jpg'
-	}
+    {
+        media: '(min-width: 468px)',
+        url: 'http://example.com/image.jpg'
+    },
+    {
+        media: '(max-width: 467px)',
+        url: 'http://example.com/some_other_image.jpg'
+    }
 ];
 ```
 
@@ -75,3 +72,12 @@ let sources = [
 
 `loadingTpl` - shown during loading. Reference to `ng-template` as shown in the example above.
 `errorTpl` -  shown if image fails to load. Reference to `ng-template` as shown in the example above.
+
+## Publishing
+Always run `npm run build` before.
+
+To publish a package run: `npm publish ./dist`
+
+If you want only to run it locally use `npm pack` as follows:
+1. `npm pack ./dist`
+2. In your project `npm i ../PATH_TO_TAR/angular-lazy-responsive-images-X.X.X.tgz` where X.X.X is the current version of a library.

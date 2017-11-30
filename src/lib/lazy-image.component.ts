@@ -4,14 +4,14 @@ import {
     Component,
     ElementRef,
     HostListener,
-    Input, OnChanges,
+    Input,
+    OnChanges,
     OnInit,
     TemplateRef,
     ViewChild,
-    ViewContainerRef
+    ViewContainerRef,
 } from '@angular/core';
-
-import {WindowRef} from '../../shared/window.reference';
+import {WindowRef} from './utils/window.reference';
 
 export interface ImageSource {
     media: string;
@@ -31,7 +31,6 @@ export type StretchStrategy = 'crop' | 'stretch' | 'original';
     selector: 'lazy-image',
     templateUrl: './lazy-image.component.html',
     styleUrls: ['./lazy-image.component.scss'],
-    providers: [WindowRef],
 })
 export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     @Input() public sources: ImageSource[];
@@ -61,10 +60,11 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     private imageHeight: number;
 
     constructor (
-        private viewContainer: ViewContainerRef,
         private cdRef: ChangeDetectorRef,
+        private el: ElementRef,
+        private viewContainer: ViewContainerRef,
         private windowRef: WindowRef,
-        private el: ElementRef) {}
+    ) {}
 
     public ngOnInit (): void {
         this.renderTemplate();
