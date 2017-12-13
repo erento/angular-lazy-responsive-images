@@ -6,6 +6,7 @@ import {
     HostListener,
     Input,
     OnChanges,
+    OnDestroy,
     OnInit,
     TemplateRef,
     ViewChild,
@@ -32,7 +33,7 @@ export type StretchStrategy = 'crop' | 'stretch' | 'original';
     templateUrl: './lazy-image.component.html',
     styleUrls: ['./lazy-image.component.scss'],
 })
-export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
+export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
     @Input() public sources: ImageSource[];
     @Input() public metadata: ImageMetadata;
     @Input() public visibilityOverride: boolean;
@@ -58,6 +59,9 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     private verticalPosition: number;
     private imageWidth: number;
     private imageHeight: number;
+    private errorEventListener: EventListener;
+    private loadEventListener: EventListener;
+    private image: HTMLImageElement;
 
     constructor (
         private cdRef: ChangeDetectorRef,
@@ -69,6 +73,14 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
     public ngOnInit (): void {
         this.renderTemplate();
         this.calculateCanvasSize();
+    }
+
+    public ngOnDestroy (): void {
+        if (this.image) {
+            this.image.removeEventListener('load', this.loadEventListener);
+            this.image.removeEventListener('error', this.errorEventListener);
+            this.image = undefined;
+        }
     }
 
     public ngAfterViewInit (): void {
@@ -163,17 +175,21 @@ export class LazyImageComponent implements AfterViewInit, OnInit, OnChanges {
             image.src = src;
             this.loading = true;
 
-            image.addEventListener('load', () => {
+            this.loadEventListener = (): void => {
                 this.loading = false;
                 this.imageWidth = image.width;
                 this.imageHeight = image.height;
                 this.updateStretchState();
-            });
+            };
+            image.addEventListener('load', this.loadEventListener);
 
-            image.addEventListener('error', () => {
+            this.errorEventListener = (): void => {
                 this.loading = false;
                 this.errorOccurred = true;
-            });
+            };
+            image.addEventListener('error', this.errorEventListener);
+
+            this.image = image;
         }
     }
 
