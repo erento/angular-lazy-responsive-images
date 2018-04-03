@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -35,6 +36,7 @@ const MAX_BUFFER_SIZE: number = 460; // some arbitrary number to play around wit
     selector: 'lazy-image',
     templateUrl: './lazy-image.component.html',
     styleUrls: ['./lazy-image.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
     @Input() public sources: ImageSource[];

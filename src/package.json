@@ -1,19 +1,35 @@
 {
+  "$schema": "../node_modules/ng-packagr/package.schema.json",
   "name": "angular-lazy-responsive-images",
   "version": "3.0.1",
   "description": "Lazy loaded, responsive images and image backgrounds for Angular.",
+  "author": "Erento GmbH <developers@erento.com> (https://www.erento.com)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/erento/angular-lazy-responsive-images.git"
   },
-  "author": "Erento GmbH",
+  "keywords": [
+    "angular",
+    "angular2",
+    "image",
+    "lazy",
+    "loading",
+    "responsive",
+    "ng"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/erento/angular-lazy-responsive-images/issues"
   },
   "homepage": "https://github.com/erento/angular-lazy-responsive-images",
   "peerDependencies": {
-    "@angular/core": "^5.0.0",
-    "@angular/common": "^5.0.0"
+    "@angular/core": ">=6.0.0-rc.1",
+    "@angular/common": ">=6.0.0-rc.1"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts"
+    },
+    "dest": "../dist"
   }
 }
