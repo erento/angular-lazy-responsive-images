@@ -1,23 +1,32 @@
 {
+  "version": "2.0.3",
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
+    "module": "commonjs",
     "baseUrl": "./",
-    "module": "es2015",
-    "types": [],
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "removeComments": true,
+    "target": "es5",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ]
-  }
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "removeComments": true,
+    "traceResolution": true,
+    "paths": {
+      "angular-lazy-responsive-images": [
+        "dist/angular-lazy-responsive-images"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }

@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -27,11 +28,15 @@ export interface ImageMetadata {
 
 export type StretchStrategy = 'crop' | 'stretch' | 'original';
 
+// maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
+const MAX_BUFFER_SIZE: number = 460; // some arbitrary number to play around with
+
 @Component({
     //tslint:disable-next-line
     selector: 'lazy-image',
     templateUrl: './lazy-image.component.html',
     styleUrls: ['./lazy-image.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
     @Input() public sources: ImageSource[];
@@ -77,6 +82,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
 
     public ngOnDestroy (): void {
         if (this.image) {
+            this.image.src = ''; // could eventually cancel request in some browsers
             this.image.removeEventListener('load', this.loadEventListener);
             this.image.removeEventListener('error', this.errorEventListener);
             this.image = undefined;
@@ -93,10 +99,9 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     }
 
     public updatePositioning (): void {
-        // maxBufferSize is the same for all the lazy-loaded images on the page. Separate service?
-        const maxBufferSize: number = 460; // some arbitrary number to play around with
-        this.scrollBufferSize = this.windowRef.nativeWindow.innerHeight < maxBufferSize ?
-            this.windowRef.nativeWindow.innerHeight : maxBufferSize;
+        this.scrollBufferSize = this.windowRef.nativeWindow.innerHeight < MAX_BUFFER_SIZE ?
+            this.windowRef.nativeWindow.innerHeight :
+            MAX_BUFFER_SIZE;
 
         this.verticalPosition = this.el.nativeElement.getBoundingClientRect().top;
     }
@@ -104,8 +109,9 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     @HostListener('window:resize', ['$event'])
     @HostListener('window:scroll', ['$event'])
     public updateVisibility (event?: Event): void {
-        const loadingArea: number = this.windowRef.nativeWindow.pageYOffset
-            + this.windowRef.nativeWindow.innerHeight + this.scrollBufferSize;
+        const loadingArea: number = this.windowRef.nativeWindow.pageYOffset +
+            this.windowRef.nativeWindow.innerHeight +
+            this.scrollBufferSize;
         const isImageInLoadingArea: boolean = loadingArea >= this.verticalPosition;
 
         if (!this.wasInViewport && isImageInLoadingArea) {
@@ -138,28 +144,19 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     }
 
     private determineBackground (): string {
-        const matched: ImageSource[] = this.sources.filter((source: ImageSource, _index: number, _array: ImageSource[]): boolean =>
-            this.windowRef.nativeWindow.matchMedia(source.media || '').matches);
+        const matched: ImageSource[] = (this.sources || []).filter(
+            (source: ImageSource): boolean => this.windowRef.nativeWindow.matchMedia(source.media || '').matches,
+        );
 
         return matched.length > 0 ? matched[0].url : '';
-    }
-
-    private validateInputs (): void {
-        if (!this.stretchStrategy) {
-            this.stretchStrategy = 'original';
-        }
-
-        if (!this.sources.length) {
-            throw new Error('No sources provided for the image.');
-        }
     }
 
     private withinCropThreshold (width: number, height: number): boolean {
         const defaultMaxCropAllowed: number = 20;
         const maxCropAllowed: number = this.maxCropPercentage ? this.maxCropPercentage : defaultMaxCropAllowed;
         const imageRatio: number = width / height;
-        const canvasRatio: number = this.el.nativeElement.getBoundingClientRect().width /
-            this.el.nativeElement.getBoundingClientRect().height;
+        const elementRect: ClientRect = this.el.nativeElement.getBoundingClientRect();
+        const canvasRatio: number = elementRect.width / elementRect.height;
 
         return isNaN(canvasRatio) ? false : Math.abs(canvasRatio - imageRatio) / canvasRatio * 100 <= maxCropAllowed;
     }
@@ -201,8 +198,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
         }
 
         if (this.stretchStrategy === 'crop') {
-            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageHeight)
-                ? 'crop' : 'stretch';
+            this.stretchState = this.withinCropThreshold(this.imageWidth, this.imageHeight) ? 'crop' : 'stretch';
         }
 
         if (this.stretchStrategy === 'stretch') {
@@ -213,11 +209,21 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     }
 
     private updateResponsiveImage (): void {
-        this.updateBackground();
         this.validateInputs();
+        this.updateBackground();
 
         if (this.stretchStrategy === 'crop') {
             this.calculateCanvasSize();
+        }
+    }
+
+    private validateInputs (): void {
+        if (!this.stretchStrategy) {
+            this.stretchStrategy = 'original';
+        }
+
+        if (!this.sources || !this.sources.length) {
+            throw new Error('No sources provided for the image.');
         }
     }
 }
