@@ -2,7 +2,7 @@
 
 # compiled output
 /dist
-dist.tgz
+angular-lazy-responsive-images-*.tgz
 /tmp
 
 # dependencies
