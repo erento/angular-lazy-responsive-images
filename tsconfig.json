@@ -27,6 +27,6 @@
     }
   },
   "include": [
-    "src/**/*.ts"
+    "projects/angular-lazy-responsive-images/src/**/*.ts"
   ]
 }

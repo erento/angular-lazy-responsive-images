@@ -76,7 +76,7 @@ It is using `window.matchMedia()`, check [here](http://caniuse.com/#feat=matchme
 ## Publishing
 Always run `npm run build` before.
 
-To publish a package run: `npm publish ./dist`
+To publish a package run: `npm publish ./dist/angular-lazy-responsive-images`
 
 If you want only to run it locally use `npm pack` as follows:
 1. `npm pack ./dist/angular-lazy-responsive-images`
