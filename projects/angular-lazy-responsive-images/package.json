@@ -1,8 +1,8 @@
 {
   "name": "angular-lazy-responsive-images",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "peerDependencies": {
-    "@angular/common": "^6.0.0",
-    "@angular/core": "^6.0.0"
+    "@angular/common": ">=6.0.0",
+    "@angular/core": ">=6.0.0"
   }
 }
