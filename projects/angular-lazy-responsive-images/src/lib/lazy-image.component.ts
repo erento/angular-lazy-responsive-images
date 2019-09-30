@@ -41,24 +41,25 @@ const MAX_BUFFER_SIZE: number = 460; // some arbitrary number to play around wit
 export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, OnInit {
     @Input() public sources: ImageSource[];
     @Input() public metadata: ImageMetadata;
-    @Input() public visibilityOverride: boolean;
     @Input() public loadingTpl: TemplateRef<any>;
     @Input() public errorTpl: TemplateRef<any>;
     @Input() public canvasRatio: number;
     @Input() public maxCropPercentage: number;
     @Input() public stretchStrategy: StretchStrategy = 'original';
-    @ViewChild('loadingTplRef') public loadingTplRef: TemplateRef<any>;
-    @ViewChild('errorTplRef') public errorTplRef: TemplateRef<any>;
+    @Input() public shouldFallbackToImgTag: boolean = false;
+    @ViewChild('loadingTplRef', {static: true}) public loadingTplRef: TemplateRef<any>;
+    @ViewChild('errorTplRef', {static: true}) public errorTplRef: TemplateRef<any>;
 
     public wasInViewport: boolean = false;
     public canvasWidth: number;
     public canvasHeight: number;
+    public matchedImageUrl: string;
     public backgroundString: string;
     public stretchState: StretchStrategy; // certain strategies can end up in more than one state dynamically
     public loading: boolean = true;
     public errorOccurred: boolean = false;
 
-    @ViewChild('imageElement') private imageElement: ElementRef;
+    @ViewChild('imageElement', {static: true}) private imageElement: ElementRef;
 
     private scrollBufferSize: number;
     private verticalPosition: number;
@@ -69,10 +70,10 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     private image: HTMLImageElement;
 
     constructor (
-        private cdRef: ChangeDetectorRef,
-        private el: ElementRef,
-        private viewContainer: ViewContainerRef,
-        private windowRef: WindowRef,
+        private readonly cdRef: ChangeDetectorRef,
+        private readonly el: ElementRef,
+        private readonly viewContainer: ViewContainerRef,
+        private readonly windowRef: WindowRef,
     ) {}
 
     public ngOnInit (): void {
@@ -116,7 +117,9 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
 
         if (!this.wasInViewport && isImageInLoadingArea) {
             this.wasInViewport = true;
-            this.updateResponsiveImage();
+            if (!event || event.type !== 'resize') {
+                this.updateResponsiveImage();
+            }
         }
 
         if (event && event.type === 'resize') {
@@ -168,6 +171,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
         const newBackgroundString: string = `url('${src}')`;
 
         if (newBackgroundString !== this.backgroundString) {
+            this.matchedImageUrl = this.metadata && this.metadata.url && this.metadata.url.length > 0 ? this.metadata.url : src;
             this.backgroundString = newBackgroundString;
             image.src = src;
             this.loading = true;
