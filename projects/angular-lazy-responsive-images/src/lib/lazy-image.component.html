@@ -1,17 +1,27 @@
-<div #imageElement itemscope itemprop="image" itemtype="http://schema.org/ImageObject" class="image-container" [ngClass]="'image-container--' + stretchState" [style.height.px]='canvasHeight' [style.width.px]='canvasWidth'>
+<div #imageElement
+     itemscope
+     itemprop="image"
+     itemtype="http://schema.org/ImageObject"
+     class="image-container"
+     [ngClass]="'image-container--' + stretchState"
+     [style.height.px]='canvasHeight'
+     [style.width.px]='canvasWidth'>
     <div class="loading" [hidden]="!loading">
-        <ng-template #loadingTplRef
-            [ngTemplateOutlet]="loadingTpl"
-        ></ng-template>
+        <ng-template #loadingTplRef [ngTemplateOutlet]="loadingTpl"></ng-template>
     </div>
     <div class="loading" [hidden]="!errorOccurred">
-        <ng-template #errorTplRef
-            [ngTemplateOutlet]="errorTpl"
-        ></ng-template>
+        <ng-template #errorTplRef [ngTemplateOutlet]="errorTpl"></ng-template>
     </div>
-    <div *ngIf="wasInViewport" [hidden]="loading" [ngStyle]="{'background-image': backgroundString}" class="image-container__image" [ngClass]="'image-container__image--' + stretchState">
-    </div>
+    <div class="image-container__image"
+         *ngIf="wasInViewport && !shouldFallbackToImgTag"
+         [hidden]="loading"
+         [ngStyle]="{'background-image': backgroundString}"
+         [ngClass]="'image-container__image--' + stretchState"></div>
     <meta *ngIf="metadata && metadata.url" itemprop="url" content="{{ metadata.url }}">
     <meta *ngIf="metadata && metadata.name" itemprop="name" content="{{ metadata.name }}">
     <meta *ngIf="metadata && metadata.keywords" itemprop="keywords" content="{{ metadata.keywords }}">
+    <img *ngIf="wasInViewport && shouldFallbackToImgTag"
+         itemprop="contentUrl"
+         [src]="matchedImageUrl"
+         [alt]="metadata && metadata.name || ''">
 </div>

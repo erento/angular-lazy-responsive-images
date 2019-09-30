@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
 import {LazyImageComponent} from './lazy-image.component';
 import {WindowRef} from './utils/window.reference';
 
@@ -9,4 +9,4 @@ import {WindowRef} from './utils/window.reference';
     providers: [WindowRef],
     declarations: [LazyImageComponent],
 })
-export class LazyImageModule { }
+export class LazyImageModule {}
