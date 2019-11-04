@@ -13,6 +13,7 @@
 .image-container {
     position: relative;
     height: 100%;
+
     &--crop {
         width: 100%;
     }
@@ -27,9 +28,11 @@
     &--crop {
         background-size: cover;
     }
+
     &--stretch {
         background-size: contain;
     }
+
     &--original {
         background-size: auto;
     }
