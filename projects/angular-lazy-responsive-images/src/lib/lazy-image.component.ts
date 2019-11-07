@@ -47,8 +47,8 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     @Input() public maxCropPercentage: number;
     @Input() public stretchStrategy: StretchStrategy = 'original';
     @Input() public shouldFallbackToImgTag: boolean = false;
-    @ViewChild('loadingTplRef', {static: true}) public loadingTplRef: TemplateRef<any>;
-    @ViewChild('errorTplRef', {static: true}) public errorTplRef: TemplateRef<any>;
+    @ViewChild('loadingTplRef', {static: false}) public loadingTplRef: TemplateRef<any>;
+    @ViewChild('errorTplRef', {static: false}) public errorTplRef: TemplateRef<any>;
 
     public wasInViewport: boolean = false;
     public canvasWidth: number;
@@ -77,7 +77,6 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     ) {}
 
     public ngOnInit (): void {
-        this.renderTemplate();
         this.calculateCanvasSize();
     }
 
@@ -91,6 +90,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     }
 
     public ngAfterViewInit (): void {
+        this.renderTemplates();
         this.updatePositioning();
         this.updateVisibility();
     }
@@ -132,7 +132,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
         this.cdRef.detectChanges();
     }
 
-    private renderTemplate (): void {
+    private renderTemplates (): void {
         this.viewContainer.createEmbeddedView(this.loadingTplRef);
         this.viewContainer.createEmbeddedView(this.errorTplRef);
         this.cdRef.detectChanges();
