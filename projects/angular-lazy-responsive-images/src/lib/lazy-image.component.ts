@@ -187,6 +187,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
             this.errorEventListener = (): void => {
                 this.loading = false;
                 this.errorOccurred = true;
+                this.cdRef.detectChanges();
             };
             image.addEventListener('error', this.errorEventListener);
 

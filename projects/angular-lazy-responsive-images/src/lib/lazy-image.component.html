@@ -6,22 +6,28 @@
      [ngClass]="'image-container--' + stretchState"
      [style.height.px]='canvasHeight'
      [style.width.px]='canvasWidth'>
-    <div class="loading" [hidden]="!loading">
-        <ng-template #loadingTplRef [ngTemplateOutlet]="loadingTpl"></ng-template>
-    </div>
-    <div class="loading" [hidden]="!errorOccurred">
-        <ng-template #errorTplRef [ngTemplateOutlet]="errorTpl"></ng-template>
-    </div>
+
+    <ng-container *ngIf="!shouldFallbackToImgTag">
+        <div class="loading" [hidden]="!loading">
+            <ng-template #loadingTplRef [ngTemplateOutlet]="loadingTpl"></ng-template>
+        </div>
+        <div class="loading loading--error-occurred" [hidden]="!errorOccurred">
+            <ng-template #errorTplRef [ngTemplateOutlet]="errorTpl"></ng-template>
+        </div>
+    </ng-container>
+
     <div class="image-container__image"
          *ngIf="wasInViewport && !shouldFallbackToImgTag"
          [hidden]="loading"
          [ngStyle]="{'background-image': backgroundString}"
          [ngClass]="'image-container__image--' + stretchState"></div>
-    <meta *ngIf="metadata && metadata.url" itemprop="url" content="{{ metadata.url }}">
-    <meta *ngIf="metadata && metadata.name" itemprop="name" content="{{ metadata.name }}">
-    <meta *ngIf="metadata && metadata.keywords" itemprop="keywords" content="{{ metadata.keywords }}">
-    <img *ngIf="wasInViewport && shouldFallbackToImgTag"
+
+    <img *ngIf="shouldFallbackToImgTag"
          itemprop="contentUrl"
          [src]="matchedImageUrl"
          [alt]="metadata && metadata.name || ''">
+
+    <meta *ngIf="metadata && metadata.url" itemprop="url" content="{{ metadata.url }}">
+    <meta *ngIf="metadata && metadata.name" itemprop="name" content="{{ metadata.name }}">
+    <meta *ngIf="metadata && metadata.keywords" itemprop="keywords" content="{{ metadata.keywords }}">
 </div>
