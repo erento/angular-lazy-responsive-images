@@ -59,6 +59,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     public loading: boolean = true;
     public errorOccurred: boolean = false;
 
+    @Input() public disableLazyLoading: boolean = false;
     @ViewChild('imageElement', {static: true}) private imageElement: ElementRef;
 
     private scrollBufferSize: number;
@@ -113,7 +114,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
         const loadingArea: number = this.windowRef.nativeWindow.pageYOffset +
             this.windowRef.nativeWindow.innerHeight +
             this.scrollBufferSize;
-        const isImageInLoadingArea: boolean = loadingArea >= this.verticalPosition;
+        const isImageInLoadingArea: boolean = this.disableLazyLoading === true ? true : loadingArea >= this.verticalPosition;
 
         if (!this.wasInViewport && isImageInLoadingArea) {
             this.wasInViewport = true;
