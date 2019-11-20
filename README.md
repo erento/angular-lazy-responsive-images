@@ -31,6 +31,7 @@ imports: [LazyImageModule],
 
 ### Options overview
 
+`disableLazyLoading` - boolean value _(default: false)_, specify if a component needs to load the image even if out of the viewport
 `stretchStrategy` - can take either `crop`, `original` or `stretch`.
 
 #### Stretch strategies

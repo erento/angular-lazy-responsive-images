@@ -7,14 +7,12 @@
      [style.height.px]='canvasHeight'
      [style.width.px]='canvasWidth'>
 
-    <ng-container *ngIf="!shouldFallbackToImgTag">
-        <div class="loading" [hidden]="!loading">
-            <ng-template #loadingTplRef [ngTemplateOutlet]="loadingTpl"></ng-template>
-        </div>
-        <div class="loading loading--error-occurred" [hidden]="!errorOccurred">
-            <ng-template #errorTplRef [ngTemplateOutlet]="errorTpl"></ng-template>
-        </div>
-    </ng-container>
+    <div class="loading" [hidden]="!loading">
+        <ng-template #loadingTplRef [ngTemplateOutlet]="loadingTpl"></ng-template>
+    </div>
+    <div class="loading loading--error-occurred" [hidden]="!errorOccurred">
+        <ng-template #errorTplRef [ngTemplateOutlet]="errorTpl"></ng-template>
+    </div>
 
     <div class="image-container__image"
          *ngIf="wasInViewport && !shouldFallbackToImgTag"

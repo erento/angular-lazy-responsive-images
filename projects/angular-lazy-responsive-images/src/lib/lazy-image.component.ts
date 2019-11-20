@@ -47,8 +47,8 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     @Input() public maxCropPercentage: number;
     @Input() public stretchStrategy: StretchStrategy = 'original';
     @Input() public shouldFallbackToImgTag: boolean = false;
-    @ViewChild('loadingTplRef', {static: false}) public loadingTplRef: TemplateRef<any>;
-    @ViewChild('errorTplRef', {static: false}) public errorTplRef: TemplateRef<any>;
+    @ViewChild('loadingTplRef', {static: true}) public loadingTplRef: TemplateRef<any>;
+    @ViewChild('errorTplRef', {static: true}) public errorTplRef: TemplateRef<any>;
 
     public wasInViewport: boolean = false;
     public canvasWidth: number;
@@ -59,6 +59,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     public loading: boolean = true;
     public errorOccurred: boolean = false;
 
+    @Input() public disableLazyLoading: boolean = false;
     @ViewChild('imageElement', {static: true}) private imageElement: ElementRef;
 
     private scrollBufferSize: number;
@@ -113,7 +114,7 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
         const loadingArea: number = this.windowRef.nativeWindow.pageYOffset +
             this.windowRef.nativeWindow.innerHeight +
             this.scrollBufferSize;
-        const isImageInLoadingArea: boolean = loadingArea >= this.verticalPosition;
+        const isImageInLoadingArea: boolean = this.disableLazyLoading === true ? true : loadingArea >= this.verticalPosition;
 
         if (!this.wasInViewport && isImageInLoadingArea) {
             this.wasInViewport = true;
