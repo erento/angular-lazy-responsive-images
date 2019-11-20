@@ -47,8 +47,8 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     @Input() public maxCropPercentage: number;
     @Input() public stretchStrategy: StretchStrategy = 'original';
     @Input() public shouldFallbackToImgTag: boolean = false;
-    @ViewChild('loadingTplRef', {static: false}) public loadingTplRef: TemplateRef<any>;
-    @ViewChild('errorTplRef', {static: false}) public errorTplRef: TemplateRef<any>;
+    @ViewChild('loadingTplRef', {static: true}) public loadingTplRef: TemplateRef<any>;
+    @ViewChild('errorTplRef', {static: true}) public errorTplRef: TemplateRef<any>;
 
     public wasInViewport: boolean = false;
     public canvasWidth: number;
