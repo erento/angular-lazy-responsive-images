@@ -5,6 +5,7 @@
   "scripts": {
     "prebuild": "npm run lint && npm run test",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "lint": "ng lint",
     "ng": "ng",
     "publish": "false",
