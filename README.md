@@ -80,5 +80,5 @@ Always run `npm run build` before.
 To publish a package run: `npm publish ./dist/angular-lazy-responsive-images`
 
 If you want only to run it locally use `npm pack` as follows:
-1. `npm pack ./dist/angular-lazy-responsive-images`
+1. `npm pack ./dist/lib`
 2. In your project `npm i ../PATH_TO_TAR/angular-lazy-responsive-images-X.X.X.tgz` where X.X.X is the current version of a library.
