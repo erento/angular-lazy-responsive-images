@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "ng": "ng",
     "publish": "false",
-    "test": "echo 'tests are off during migration'"
+    "test": "echo 'tests are off during migration'",
+    "test:loc": "ng test --watch=false"
   },
   "repository": {
     "type": "git",
