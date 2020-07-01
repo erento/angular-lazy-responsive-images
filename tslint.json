@@ -38,6 +38,9 @@
         "comment-type": false,
         "callable-types": true,
         "curly": true,
+        "deprecation": {
+            "severity": "warning"
+        },
         "encoding": true,
         "eofline": true,
         "forin": true,

@@ -1,32 +1,17 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
 {
-  "version": "2.0.3",
-  "compileOnSave": false,
-  "compilerOptions": {
-    "module": "esnext",
-    "baseUrl": "./",
-    "target": "es5",
-    "lib": [
-      "es2015",
-      "dom"
-    ],
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "declaration": true,
-    "removeComments": true,
-    "traceResolution": true,
-    "paths": {
-      "angular-lazy-responsive-images": [
-        "dist/angular-lazy-responsive-images"
-      ]
+  "files": [],
+  "references": [
+    {
+      "path": "./projects/angular-lazy-responsive-images/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/angular-lazy-responsive-images/tsconfig.spec.json"
     }
-  },
-  "include": [
-    "projects/angular-lazy-responsive-images/src/**/*.ts"
   ]
 }
