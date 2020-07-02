@@ -96,11 +96,14 @@ describe('LazyImageComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should load an image accordingly', () => {
-        const backgroundString: string = getBackgroundElement().style.backgroundImage;
-        expect(backgroundString).toBe(
-            `url("${testImage}")`,
-        );
+    it('should load an image accordingly', (done: any) => {
+        setTimeout(() => {
+            const backgroundString: string = getBackgroundElement().style.backgroundImage;
+            expect(backgroundString).toBe(
+                `url("${testImage}")`,
+            );
+            done();
+        }, 1000);
     });
 
     it('should handle loading errors with showing the template', () => {
