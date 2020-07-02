@@ -91,9 +91,13 @@ export class LazyImageComponent implements AfterViewInit, OnChanges, OnDestroy, 
     }
 
     public ngAfterViewInit (): void {
-        this.renderTemplates();
-        this.updatePositioning();
-        this.updateVisibility();
+        // When using route resolvers the image position calculation has to be postponed until the old route content is destroyed.
+        // This is just a workaround.
+        setTimeout((): void => {
+            this.renderTemplates();
+            this.updatePositioning();
+            this.updateVisibility();
+        }, 0);
     }
 
     public ngOnChanges (): void {
