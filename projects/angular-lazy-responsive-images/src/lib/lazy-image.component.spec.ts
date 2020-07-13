@@ -96,8 +96,8 @@ describe('LazyImageComponent', (): void => {
         expect(component).toBeTruthy();
     });
 
-    it('should load an image accordingly', (done: any) => {
-        setTimeout(() => {
+    it('should load an image accordingly', (done: any): void => {
+        setTimeout((): void => {
             const backgroundString: string = getBackgroundElement().style.backgroundImage;
             expect(backgroundString).toBe(
                 `url("${testImage}")`,
