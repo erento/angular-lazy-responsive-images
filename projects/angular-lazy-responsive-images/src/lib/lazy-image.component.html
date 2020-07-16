@@ -3,7 +3,7 @@
      itemprop="image"
      itemtype="http://schema.org/ImageObject"
      class="image-container"
-     [ngClass]="'image-container--' + stretchState"
+     [class]="stretchState ? 'image-container--' + stretchState : ''"
      [style.height.px]='canvasHeight'
      [style.width.px]='canvasWidth'>
 
@@ -18,7 +18,7 @@
          *ngIf="wasInViewport && !shouldFallbackToImgTag"
          [hidden]="loading"
          [ngStyle]="{'background-image': backgroundString}"
-         [ngClass]="'image-container__image--' + stretchState"></div>
+         [class]="stretchState ? 'image-container__image--' + stretchState : ''"></div>
 
     <img *ngIf="shouldFallbackToImgTag"
          itemprop="contentUrl"

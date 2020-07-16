@@ -1,0 +1,20 @@
+<h1>Demo of Lazy Image component</h1>
+
+<div class="item" *ngFor="let imageSource of imageSources">
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi aspernatur dolores est, facere fugit incidunt magni maiores nobis obcaecati porro praesentium provident quas reiciendis sit soluta unde vero voluptatem!
+  </p>
+
+  <div class="image-container">
+    <lazy-image class="img"
+                [loadingTpl]="thumbnailLoadingTemplate"
+                [errorTpl]="thumbnailErrorTemplate"
+                [stretchStrategy]="'crop'"
+                [sources]="imageSource"></lazy-image>
+  </div>
+
+  <hr>
+</div>
+
+<ng-template #thumbnailLoadingTemplate><span>loading...</span></ng-template>
+<ng-template #thumbnailErrorTemplate><span>failed to load</span></ng-template>

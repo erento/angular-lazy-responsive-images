@@ -58,11 +58,11 @@ class StubComponent {
     public testParentRatio: string;
 }
 
-describe('LazyImageComponent', () => {
+describe('LazyImageComponent', (): void => {
     let component: StubComponent;
     let fixture: ComponentFixture<StubComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(async((): void => {
         TestBed.configureTestingModule({
             declarations: [
                 StubComponent,
@@ -75,7 +75,7 @@ describe('LazyImageComponent', () => {
         }).compileComponents();
     }));
 
-    beforeEach(() => {
+    beforeEach((): void => {
         fixture = TestBed.createComponent(StubComponent);
         component = fixture.componentInstance;
 
@@ -92,12 +92,12 @@ describe('LazyImageComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create the stub component', () => {
+    it('should create the stub component', (): void => {
         expect(component).toBeTruthy();
     });
 
-    it('should load an image accordingly', (done: any) => {
-        setTimeout(() => {
+    it('should load an image accordingly', (done: any): void => {
+        setTimeout((): void => {
             const backgroundString: string = getBackgroundElement().style.backgroundImage;
             expect(backgroundString).toBe(
                 `url("${testImage}")`,
@@ -106,7 +106,7 @@ describe('LazyImageComponent', () => {
         }, 1000);
     });
 
-    it('should handle loading errors with showing the template', () => {
+    it('should handle loading errors with showing the template', (): void => {
         component.sources = [{
             media: 'all',
             url: 'this_should_generate_a_404',
@@ -115,7 +115,7 @@ describe('LazyImageComponent', () => {
         expect(getErrorElement()).toBeTruthy();
     });
 
-    it('should choose valid for original', (done: any) => {
+    it('should choose valid for original', (done: any): void => {
         // since our image is 272x92, the ratio is 2.95652174.
         component.stretchStrategy = 'original';
         component.testParentRatio = '43'; // this sets the parent size
@@ -123,33 +123,33 @@ describe('LazyImageComponent', () => {
         component.canvasRatio = 2.7; // 2.95/1.5 > 30, should be `stretched`
         fixture.detectChanges();
 
-        setTimeout(() => {
+        setTimeout((): void => {
             expect(hasStretchState('original')).toBeTruthy();
             done();
         }, 1000);
     });
 
-    it('should choose valid for crop (stretch)', (done: any) => {
+    it('should choose valid for crop (stretch)', (done: any): void => {
         component.stretchStrategy = 'crop';
         component.testParentRatio = '43'; // this sets the parent size
         component.maxCropPercentage = 30;
         component.canvasRatio = 1.5; // 2.95/1.5 > 30, should be `stretched`
         fixture.detectChanges();
 
-        setTimeout(() => {
+        setTimeout((): void => {
             expect(hasStretchState('stretch')).toBeTruthy('Should be `stretch` but is not.');
             done();
         }, 1000);
     });
 
-    it('should choose valid for crop', (done: any) => {
+    it('should choose valid for crop', (done: any): void => {
         component.stretchStrategy = 'crop';
         component.testParentRatio = '43'; // this sets the parent size
         component.maxCropPercentage = 30;
         component.canvasRatio = 2.95;
         fixture.detectChanges();
 
-        setTimeout(() => {
+        setTimeout((): void => {
             expect(hasStretchState('crop')).toBeTruthy('Should be `crop` but is not.');
             done();
         }, 1000);

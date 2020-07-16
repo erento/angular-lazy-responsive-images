@@ -1,7 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
+    "moduleResolution": "node",
+    "importHelpers": true,
     "types": [
       "jasmine",
       "node"

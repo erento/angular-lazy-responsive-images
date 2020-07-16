@@ -1,0 +1,32 @@
+{
+  "version": "2.0.3",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "module": "es2020",
+    "baseUrl": "./",
+    "target": "es5",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "removeComments": true,
+    "traceResolution": true,
+    "paths": {
+      "angular-lazy-responsive-images": [
+        "dist/angular-lazy-responsive-images"
+      ]
+    }
+  },
+  "include": [
+    "projects/angular-lazy-responsive-images/src/**/*.ts"
+  ]
+}

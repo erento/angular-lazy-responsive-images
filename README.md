@@ -65,7 +65,7 @@ let sources = [
 ];
 ```
 
-#### Custimization
+#### Customization
 
 `loadingTpl` - shown during loading. Reference to `ng-template` as shown in the example above.
 `errorTpl` -  shown if image fails to load. Reference to `ng-template` as shown in the example above.
